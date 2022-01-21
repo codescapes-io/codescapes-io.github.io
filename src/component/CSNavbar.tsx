@@ -6,7 +6,7 @@ import {
     Link
 } from "react-router-dom";
 import Docs from '../view/Docs';
-import Home from '../view/Home'
+import HomePage from '../view/CSHomePage'
 
 const Navbar: React.FC = () => {
     return (
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
                 </ul>
             </nav>
             <Routes>
-                <Route path='/' element={<Home />} />
+                <Route path='/' element={<HomePage />} />
                 <Route path='/docs' element={<Docs />} />
             </Routes>
         </Router>

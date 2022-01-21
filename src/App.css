@@ -144,7 +144,7 @@ a.learn-more {
   flex-wrap: wrap;
 }
 
-.tech-compatible svg {
+.tech-compatible img {
   margin: 0 46.5px;
 }
 
@@ -195,6 +195,7 @@ a.learn-more {
   letter-spacing: 0.12em;
   font-weight: bold;
   font-size: 18px;  
+  cursor: pointer;
   background-color: #F7B93B;
 }
 

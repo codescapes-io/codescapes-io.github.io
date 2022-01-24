@@ -54,12 +54,13 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('http://api.codescapes.io/api/homepage?populate=techs');
+            const response = await axios.get(process.env.REACT_APP_HOMEPAGE_API ? process.env.REACT_APP_HOMEPAGE_API : '');
             setContent(response.data.data);
         }
         fetchData()
 
     }, [content])
+
     return (
         <section id='home'>
             <div className="container-hero">

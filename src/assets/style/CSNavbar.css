@@ -1,0 +1,33 @@
+/* Navbar */
+nav {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    margin : 41px 0;
+    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 346px;
+    width: 100%;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #272827;
+  }
+  
+  nav ul li a.active {
+    font-weight: 900;
+  }
+  
+  .logo {
+    position: absolute;
+    left: 9.5%;
+    top: 14%;
+  }

@@ -54,7 +54,7 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get(process.env.REACT_APP_HOMEPAGE_API ? process.env.REACT_APP_HOMEPAGE_API : '');
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
             setContent(response.data.data);
         }
         fetchData()

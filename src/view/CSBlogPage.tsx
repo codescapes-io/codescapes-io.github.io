@@ -23,6 +23,16 @@ export interface BlogProps {
                     }
                 }[]
             }
+            users_permissions_user: {
+                data: {
+                    id: number
+                    attributes: {
+                        username: string
+                        email: string
+                        name: string
+                    }
+                }
+            }
         }
     }[]
 }
@@ -31,18 +41,18 @@ const CSBlogPage: React.FC = () => {
     const [articles, setArticles] = useState<BlogProps['articleList']>([]);
     const [popularArticle, setPopularArticle] = useState<BlogProps['articleList']>([]);
     const [dotActive, setDotActive] = useState<number>(0);
+    const [heroImgUrl, setHeroImgUrl] = useState<string>();
 
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users`);
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&&pagination[pageSize]=3`);
+            const responseSort = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&pagination[pageSize]=3&sort[0]=read%3Adesc`);
             if (cancel) return;
+
             setArticles(response.data.data);
-            setPopularArticle(articles.sort((a, b) => {
-                if (parseInt(a.attributes.read) < parseInt(b.attributes.read)) return 1;
-                if (parseInt(a.attributes.read) > parseInt(b.attributes.read)) return -1;
-                return 0;
-            }))
+            setPopularArticle(responseSort.data.data)
+            setHeroImgUrl(`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`);
         }
 
         fetchData()
@@ -50,11 +60,12 @@ const CSBlogPage: React.FC = () => {
             cancel = true
         }
 
-    }, [articles])
+    }, [articles, popularArticle])
 
     const handleSlide = (index: number) => {
         const dotList = Object.values(document.getElementsByClassName('dot'));
 
+        if (index === dotActive) return;
         dotList[index].classList.add('active-dot')
         dotList[dotActive].classList.remove('active-dot')
         setDotActive(index);
@@ -64,16 +75,13 @@ const CSBlogPage: React.FC = () => {
         <section>
             <div className="container-hero-blog">
                 {
-                    popularArticle.map((el, index) => {
-                        return (
-                            <img
-                                key={index}
-                                src={`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`}
-                                alt={el.attributes.title}
-                                className={dotActive === index ? 'hero-img active-img' : 'hero-img'}
-                            />
-                        )
-                    })
+                    !heroImgUrl
+                        ? <p>Loading...</p>
+                        : <img
+                            src={`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`}
+                            alt='hero-slider'
+                            className='hero-img active-img'
+                        />
                 }
                 <div className="container-slider">
                     {
@@ -84,19 +92,13 @@ const CSBlogPage: React.FC = () => {
                                     class={index === dotActive ? 'active-blog' : ''}
                                     title={el.attributes.title}
                                     category={el.attributes.categories.data[0].attributes.name}
-                                    createdAt={el.attributes.createdAt} writer={'Michael Junior'}
+                                    createdAt={el.attributes.createdAt}
+                                    writer={el.attributes.users_permissions_user.data.attributes.name}
                                     content={el.attributes.content}
                                 />
                             )
                         })
                     }
-
-                    {/* <CSHeroSlider
-                        title={popularArticle[dotActive].attributes.title}
-                        category={popularArticle[dotActive].attributes.categories.data[0].attributes.name}
-                        createdAt={popularArticle[dotActive].attributes.createdAt} writer={'Michael Junior'}
-                        content={popularArticle[dotActive].attributes.content}
-                    /> */}
 
                     <div className="dot-slider">
                         {
@@ -123,19 +125,15 @@ const CSBlogPage: React.FC = () => {
                 <div className="container-card-row">
                     {
                         popularArticle.map((el, index) => {
-                            if (index > 2) {
-                                return null;
-                            } else {
-                                return (
-                                    <CSCardArticlePopular
-                                        key={index}
-                                        title={el.attributes.title}
-                                        category={el.attributes.categories.data[0].attributes.name}
-                                        createdAt={el.attributes.createdAt}
-                                        writer={'Michael Junior'}
-                                    />
-                                )
-                            }
+                            return (
+                                <CSCardArticlePopular
+                                    key={index}
+                                    title={el.attributes.title}
+                                    category={el.attributes.categories.data[0].attributes.name}
+                                    createdAt={el.attributes.createdAt}
+                                    writer={el.attributes.users_permissions_user.data.attributes.name}
+                                />
+                            )
                         })
                     }
                 </div>
@@ -143,20 +141,16 @@ const CSBlogPage: React.FC = () => {
             <div className="container-all-article">
                 {
                     articles.map((el, index) => {
-                        if (index > 2) {
-                            return null;
-                        } else {
-                            return (
-                                <CSCardArticle
-                                    key={index}
-                                    title={el.attributes.title}
-                                    content={el.attributes.content}
-                                    category={el.attributes.categories.data[0].attributes.name}
-                                    createdAt={el.attributes.createdAt}
-                                    writer={'Michael Junior'}
-                                />
-                            )
-                        }
+                        return (
+                            <CSCardArticle
+                                key={index}
+                                title={el.attributes.title}
+                                content={el.attributes.content}
+                                category={el.attributes.categories.data[0].attributes.name}
+                                createdAt={el.attributes.createdAt}
+                                writer={el.attributes.users_permissions_user.data.attributes.name}
+                            />
+                        )
                     })
                 }
             </div>

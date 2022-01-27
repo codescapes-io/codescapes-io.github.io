@@ -1,6 +1,5 @@
 /* Hero Section */
 .container-hero-blog {
-    /* background-image: url('/public/image/BlogHeroImg.png'); */
     background-position: center;
     background-size: cover;
     width: 100%;
@@ -18,7 +17,11 @@
     justify-content: center;
     align-items: flex-start;
     flex-basis: 40%;
+    transition: opacity 0.5s ease;
     opacity: 0;
+    right: 10;
+    top: 18.7%;
+    /* top: 20%; */
     position: absolute;
 }
 
@@ -101,6 +104,11 @@
     margin-top: 24px;
     margin-bottom: 16px;
     line-height: 31px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .article-writer{
@@ -140,7 +148,7 @@
 .container-card-row {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     margin: 60px 0;
     background-color: #F6F6F6   ;
 }
@@ -196,7 +204,6 @@
 }
 
 .card-article {
-    /* background-image: url('/public/image/BlogHeroImg.png'); */
     background-position: center;
     background-size: cover;
     width: 100%;

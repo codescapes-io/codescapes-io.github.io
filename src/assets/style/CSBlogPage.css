@@ -1,13 +1,15 @@
 /* Hero Section */
 .container-hero-blog {
-    background-image: url('/public/image/BlogHeroImg.png');
+    /* background-image: url('/public/image/BlogHeroImg.png'); */
     background-position: center;
     background-size: cover;
     width: 100%;
-    height: 60vh;
+    height: 70vh;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .content-wrap-blog {
@@ -16,6 +18,54 @@
     justify-content: center;
     align-items: flex-start;
     flex-basis: 40%;
+    opacity: 0;
+    position: absolute;
+}
+
+.active-blog {
+    position: initial;
+    opacity: 1;
+}
+
+.hero-img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+}
+
+.active-img {
+    opacity: 1;
+}
+
+.container-slider {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex-basis: 40%;
+    z-index: 1;
+}
+
+.dot-slider {
+    display: flex;
+    transform: translateY(60px);
+}
+
+.dot {
+    border: 0;
+    width: 17px;
+    height: 17px;
+    margin-right: 16px;
+    background-color: #c4c4c4;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.active-dot {
+    background-color: #4FA7AA;
+
 }
 
 .bold-yellow {
@@ -29,6 +79,11 @@
     margin: 0;
     max-width: 423px;
     font-weight: 900;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .content-wrap-blog h1 {
@@ -59,6 +114,7 @@
 
 .article-writer p{
     margin: 0;
+    font-size: 12px;
     margin-left: 16px;
 }
 
@@ -140,7 +196,7 @@
 }
 
 .card-article {
-    background-image: url('/public/image/BlogHeroImg.png');
+    /* background-image: url('/public/image/BlogHeroImg.png'); */
     background-position: center;
     background-size: cover;
     width: 100%;
@@ -153,6 +209,7 @@
     border-radius: 17px;
     margin: 30px 15px;
     padding: 24px 14px 14px 14px;
+    position: relative;
 }
 
 .content-wrap-card {
@@ -162,6 +219,11 @@
     align-items: flex-start;
     align-self: flex-end;
     width: 50%;
+}
+
+.content-wrap-card p {
+    font-size: 12px;
+    line-height: 195.9%;
 }
 
 .container-article-ads {

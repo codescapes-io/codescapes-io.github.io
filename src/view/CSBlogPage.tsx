@@ -1,20 +1,117 @@
-import React from 'react';
-import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import CSCardArticle from '../component/CSCardArticle';
-import CSCardArtilePopular from '../component/CSCardArtilePopular';
+import CSCardArticlePopular from '../component/CSCardArtcilePopular';
 import CSEmailSubscribe from '../component/CSEmailSubscribe';
+import CSHeroSlider from '../component/CSHeroSlider';
 
-const CSBlogPage = () => {
+export interface BlogProps {
+    articleList: {
+        id: number
+        attributes: {
+            title: string
+            content: string
+            createdAt: string
+            updatedAt: string
+            publishedAt: string
+            read: string
+            categories: {
+                data: {
+                    id: number
+                    attributes: {
+                        name: string
+                    }
+                }[]
+            }
+        }
+    }[]
+}
+
+const CSBlogPage: React.FC = () => {
+    const [articles, setArticles] = useState<BlogProps['articleList']>([]);
+    const [popularArticle, setPopularArticle] = useState<BlogProps['articleList']>([]);
+    const [dotActive, setDotActive] = useState<number>(0);
+
+    useEffect(() => {
+        let cancel = false;
+        const fetchData = async () => {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users`);
+            if (cancel) return;
+            setArticles(response.data.data);
+            setPopularArticle(articles.sort((a, b) => {
+                if (parseInt(a.attributes.read) < parseInt(b.attributes.read)) return 1;
+                if (parseInt(a.attributes.read) > parseInt(b.attributes.read)) return -1;
+                return 0;
+            }))
+        }
+
+        fetchData()
+        return () => {
+            cancel = true
+        }
+
+    }, [articles])
+
+    const handleSlide = (index: number) => {
+        const dotList = Object.values(document.getElementsByClassName('dot'));
+
+        dotList[index].classList.add('active-dot')
+        dotList[dotActive].classList.remove('active-dot')
+        setDotActive(index);
+    }
+
     return (
         <section>
             <div className="container-hero-blog">
-                <div className="content-wrap-blog">
-                    <p className='bold-yellow'>Website Component</p>
-                    <h1>Instant Lorem Ipsum all your </h1>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                    <div className="article-writer">
-                        <CSWriterAvatar />
-                        <p><strong>Michael Junior</strong> on 27 Mei 2021</p>
+                {
+                    popularArticle.map((el, index) => {
+                        return (
+                            <img
+                                key={index}
+                                src={`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`}
+                                alt={el.attributes.title}
+                                className={dotActive === index ? 'hero-img active-img' : 'hero-img'}
+                            />
+                        )
+                    })
+                }
+                <div className="container-slider">
+                    {
+                        popularArticle.map((el, index) => {
+                            return (
+                                <CSHeroSlider
+                                    key={index}
+                                    class={index === dotActive ? 'active-blog' : ''}
+                                    title={el.attributes.title}
+                                    category={el.attributes.categories.data[0].attributes.name}
+                                    createdAt={el.attributes.createdAt} writer={'Michael Junior'}
+                                    content={el.attributes.content}
+                                />
+                            )
+                        })
+                    }
+
+                    {/* <CSHeroSlider
+                        title={popularArticle[dotActive].attributes.title}
+                        category={popularArticle[dotActive].attributes.categories.data[0].attributes.name}
+                        createdAt={popularArticle[dotActive].attributes.createdAt} writer={'Michael Junior'}
+                        content={popularArticle[dotActive].attributes.content}
+                    /> */}
+
+                    <div className="dot-slider">
+                        {
+                            popularArticle.map((el, index) => {
+                                return (
+                                    <span
+                                        key={index}
+                                        onClick={() => handleSlide(index)}
+                                        className={dotActive === index ? 'dot active-dot' : 'dot'}
+                                        id={el.attributes.title}
+                                    >
+                                    </span>
+                                )
+                            })
+                        }
                     </div>
                 </div>
             </div>
@@ -24,15 +121,44 @@ const CSBlogPage = () => {
                     <p>created on 27 Mei 2021</p>
                 </div>
                 <div className="container-card-row">
-                    <CSCardArtilePopular />
-                    <CSCardArtilePopular />
-                    <CSCardArtilePopular />
+                    {
+                        popularArticle.map((el, index) => {
+                            if (index > 2) {
+                                return null;
+                            } else {
+                                return (
+                                    <CSCardArticlePopular
+                                        key={index}
+                                        title={el.attributes.title}
+                                        category={el.attributes.categories.data[0].attributes.name}
+                                        createdAt={el.attributes.createdAt}
+                                        writer={'Michael Junior'}
+                                    />
+                                )
+                            }
+                        })
+                    }
                 </div>
             </div>
             <div className="container-all-article">
-                <CSCardArticle />
-                <CSCardArticle />
-                <CSCardArticle />
+                {
+                    articles.map((el, index) => {
+                        if (index > 2) {
+                            return null;
+                        } else {
+                            return (
+                                <CSCardArticle
+                                    key={index}
+                                    title={el.attributes.title}
+                                    content={el.attributes.content}
+                                    category={el.attributes.categories.data[0].attributes.name}
+                                    createdAt={el.attributes.createdAt}
+                                    writer={'Michael Junior'}
+                                />
+                            )
+                        }
+                    })
+                }
             </div>
             <CSEmailSubscribe />
         </section>

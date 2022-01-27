@@ -1,17 +1,35 @@
 import React from 'react';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
 
-const CSCardArticle = () => {
+export interface CardArticleProps {
+    class?: string
+    title: string
+    content?: string
+    category: string
+    createdAt: string
+    writer: string
+}
+
+const CSCardArticle: React.FC<CardArticleProps> = (props) => {
+    let date = new Date(props.createdAt);
+    let month = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+    let formatDate = `${date.getDay()}  ${month[date.getMonth()]}  ${date.getFullYear()}`
     return (
         <div className='container-article-ads'>
-            <div className='card-article'>
+            <div className='card-article' style={{ backgroundImage: `url(${process.env.REACT_APP_BASE_URL + '/uploads/article_img_77492e10a8.png'})` }}>
+                {/* <img
+                    src={process.env.REACT_APP_BASE_URL + '/uploads/article_img_77492e10a8.png'}
+                    alt=""
+                    className='hero-img active-img'
+                /> */}
                 <div className="content-wrap-card">
-                    <p className='bold-yellow'>Website Component</p>
-                    <h1>Instant Lorem Ipsum all your </h1>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                    <p className='bold-yellow'>{props.category}</p>
+                    <h1>{props.title}</h1>
+                    <p>{props.content}</p>
                     <div className="article-writer">
                         <CSWriterAvatar />
-                        <p><strong>Michael Junior</strong> on 27 Mei 2021</p>
+                        <p><strong>{props.writer}</strong> on {formatDate}</p>
                     </div>
                 </div>
             </div>

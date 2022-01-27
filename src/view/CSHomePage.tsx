@@ -53,12 +53,16 @@ const Home: React.FC = () => {
     const [content, setContent] = useState<HomeProps>()
 
     useEffect(() => {
+        let cancel = false;
         const fetchData = async () => {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
+            if (cancel) return;
             setContent(response.data.data);
         }
         fetchData()
-
+        return () => {
+            cancel = true
+        }
     }, [content])
 
     return (

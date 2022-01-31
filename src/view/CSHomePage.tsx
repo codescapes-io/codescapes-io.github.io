@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import CSIFeature from '../assets/image/CSIFeature';
-import CSIMail from '../assets/image/CSIMail';
+import CSEmailSubscribe from '../component/CSEmailSubscribe';
 
 export interface HomeProps {
     attributes: {
@@ -53,12 +53,16 @@ const Home: React.FC = () => {
     const [content, setContent] = useState<HomeProps>()
 
     useEffect(() => {
+        let cancel = false;
         const fetchData = async () => {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
+            if (cancel) return;
             setContent(response.data.data);
         }
         fetchData()
-
+        return () => {
+            cancel = true
+        }
     }, [content])
 
     return (
@@ -99,22 +103,11 @@ const Home: React.FC = () => {
             <div className="tech-compatible">
                 {content?.attributes.techs.data.map(el => {
                     return (
-                        <img key={el.id} src={`http://api.codescapes.io${el.attributes.url}`} alt="" />
+                        <img key={el.id} src={`${process.env.REACT_APP_BASE_URL}${el.attributes.url}`} alt="" />
                     )
                 })}
             </div>
-            <div className="container-subscribe">
-                <CSIMail />
-                <div className="subs-body">
-                    <h1>Stay Tuned!</h1>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                        Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                    <form action="">
-                        <input type="email" name="" id="" placeholder='Enter your e-mail adress' />
-                        <button>Submit</button>
-                    </form>
-                </div>
-            </div>
+            <CSEmailSubscribe />
         </section>
     )
 }

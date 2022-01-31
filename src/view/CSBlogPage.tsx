@@ -4,6 +4,10 @@ import CSCardArticle from '../component/CSCardArticle';
 import CSCardArticlePopular from '../component/CSCardArtcilePopular';
 import CSEmailSubscribe from '../component/CSEmailSubscribe';
 import CSHeroSlider from '../component/CSHeroSlider';
+import { Skeleton } from '@mui/material';
+import CSHeroSliderSkeleton from '../component/skeleton/CSHeroSliderSkeleton';
+import CSCardPopularSkeleton from '../component/skeleton/CSCardPopularSkeleton';
+import CSCardArticleSkeleton from '../component/skeleton/CSCardArticleSkeleton';
 
 export interface BlogProps {
     articleList: {
@@ -42,6 +46,7 @@ const CSBlogPage: React.FC = () => {
     const [popularArticle, setPopularArticle] = useState<BlogProps['articleList']>([]);
     const [dotActive, setDotActive] = useState<number>(0);
     const [heroImgUrl, setHeroImgUrl] = useState<string>();
+    const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
         let cancel = false;
@@ -53,6 +58,7 @@ const CSBlogPage: React.FC = () => {
             setArticles(response.data.data);
             setPopularArticle(responseSort.data.data)
             setHeroImgUrl(`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`);
+            setLoading(false);
         }
 
         fetchData()
@@ -75,29 +81,37 @@ const CSBlogPage: React.FC = () => {
         <section>
             <div className="container-hero-blog">
                 {
-                    !heroImgUrl
-                        ? <p>Loading...</p>
+                    isLoading
+                        ? <Skeleton
+                            variant='rectangular'
+                            width='100%'
+                            height='100%'
+                            animation='wave'
+                            style={{ position: 'absolute' }}
+                        />
                         : <img
-                            src={`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`}
+                            src={heroImgUrl}
                             alt='hero-slider'
                             className='hero-img active-img'
                         />
                 }
                 <div className="container-slider">
                     {
-                        popularArticle.map((el, index) => {
-                            return (
-                                <CSHeroSlider
-                                    key={index}
-                                    class={index === dotActive ? 'active-blog' : ''}
-                                    title={el.attributes.title}
-                                    category={el.attributes.categories.data[0].attributes.name}
-                                    createdAt={el.attributes.createdAt}
-                                    writer={el.attributes.users_permissions_user.data.attributes.name}
-                                    content={el.attributes.content}
-                                />
-                            )
-                        })
+                        isLoading
+                            ? <CSHeroSliderSkeleton />
+                            : popularArticle.map((el, index) => {
+                                return (
+                                    <CSHeroSlider
+                                        key={index}
+                                        class={index === dotActive ? 'active-blog' : ''}
+                                        title={el.attributes.title}
+                                        category={el.attributes.categories.data[0].attributes.name}
+                                        createdAt={el.attributes.createdAt}
+                                        writer={el.attributes.users_permissions_user.data.attributes.name}
+                                        content={el.attributes.content}
+                                    />
+                                )
+                            })
                     }
 
                     <div className="dot-slider">
@@ -126,13 +140,15 @@ const CSBlogPage: React.FC = () => {
                     {
                         popularArticle.map((el, index) => {
                             return (
-                                <CSCardArticlePopular
-                                    key={index}
-                                    title={el.attributes.title}
-                                    category={el.attributes.categories.data[0].attributes.name}
-                                    createdAt={el.attributes.createdAt}
-                                    writer={el.attributes.users_permissions_user.data.attributes.name}
-                                />
+                                isLoading
+                                    ? <CSCardPopularSkeleton />
+                                    : <CSCardArticlePopular
+                                        key={index}
+                                        title={el.attributes.title}
+                                        category={el.attributes.categories.data[0].attributes.name}
+                                        createdAt={el.attributes.createdAt}
+                                        writer={el.attributes.users_permissions_user.data.attributes.name}
+                                    />
                             )
                         })
                     }
@@ -142,14 +158,16 @@ const CSBlogPage: React.FC = () => {
                 {
                     articles.map((el, index) => {
                         return (
-                            <CSCardArticle
-                                key={index}
-                                title={el.attributes.title}
-                                content={el.attributes.content}
-                                category={el.attributes.categories.data[0].attributes.name}
-                                createdAt={el.attributes.createdAt}
-                                writer={el.attributes.users_permissions_user.data.attributes.name}
-                            />
+                            isLoading
+                                ? <CSCardArticleSkeleton />
+                                : <CSCardArticle
+                                    key={index}
+                                    title={el.attributes.title}
+                                    content={el.attributes.content}
+                                    category={el.attributes.categories.data[0].attributes.name}
+                                    createdAt={el.attributes.createdAt}
+                                    writer={el.attributes.users_permissions_user.data.attributes.name}
+                                />
                         )
                     })
                 }

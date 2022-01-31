@@ -65,7 +65,6 @@ const CSBlogPage: React.FC = () => {
         return () => {
             cancel = true
         }
-
     }, [])
 
     const handleSlide = (index: number) => {

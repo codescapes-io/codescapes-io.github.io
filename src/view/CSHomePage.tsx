@@ -63,7 +63,7 @@ const Home: React.FC = () => {
         return () => {
             cancel = true
         }
-    }, [content])
+    }, [])
 
     return (
         <section id='home'>

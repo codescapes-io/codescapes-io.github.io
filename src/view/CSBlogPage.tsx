@@ -65,8 +65,7 @@ const CSBlogPage: React.FC = () => {
         return () => {
             cancel = true
         }
-
-    }, [articles, popularArticle])
+    }, [])
 
     const handleSlide = (index: number) => {
         const dotList = Object.values(document.getElementsByClassName('dot'));

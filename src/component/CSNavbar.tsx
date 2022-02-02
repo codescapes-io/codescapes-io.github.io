@@ -8,7 +8,7 @@ import {
 import Docs from '../view/Docs';
 import HomePage from '../view/CSHomePage'
 import CSBlogPage from '../view/CSBlogPage';
-import CSArticle from '../view/CSArticle';
+// import CSArticle from '../view/CSArticle';
 import CSMenuIcons from '../assets/icons/CSMenuIcons';
 import CSCloseIcons from '../assets/icons/CSCloseIcons';
 
@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
                 <Route path='/' element={<HomePage />} />
                 <Route path='/docs' element={<Docs />} />
                 <Route path='/blog' element={<CSBlogPage />} />
-                <Route path='/blog/:id' element={<CSArticle />} />
+                {/* <Route path='/blog/:id' element={<CSArticle />} /> */}
             </Routes>
         </Router>
     )

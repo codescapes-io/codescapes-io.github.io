@@ -88,13 +88,12 @@ const CSBlogPage: React.FC = () => {
                             animation='wave'
                             style={{ position: 'absolute' }}
                         />
-                        : <img
-                            src={heroImgUrl}
-                            alt='hero-slider'
+                        : <div
+                            style={{ backgroundImage: `url(${heroImgUrl})` }}
                             className='hero-img active-img'
-                        />
+                        ></div>
                 }
-                <div className="container-slider">
+                <div className="container-slider basis-full mx-7 md:basis-2/5">
                     {
                         isLoading
                             ? <CSHeroSliderSkeleton />
@@ -102,6 +101,7 @@ const CSBlogPage: React.FC = () => {
                                 return (
                                     <CSHeroSlider
                                         key={index}
+                                        id={el.id}
                                         class={index === dotActive ? 'active-blog' : ''}
                                         title={el.attributes.title}
                                         category={el.attributes.categories.data[0].attributes.name}
@@ -132,17 +132,18 @@ const CSBlogPage: React.FC = () => {
             </div>
             <div className="container-popular-article">
                 <div className="header-popular">
-                    <h1>Popular This Month</h1>
+                    <h1 className='text-2xl lg:text-5xl'>Popular This Month</h1>
                     <p>created on 27 Mei 2021</p>
                 </div>
-                <div className="container-card-row">
+                <div className="container-card-row flex-col lg:flex-row">
                     {
                         popularArticle.map((el, index) => {
                             return (
                                 isLoading
-                                    ? <CSCardPopularSkeleton />
+                                    ? <CSCardPopularSkeleton key={index} />
                                     : <CSCardArticlePopular
                                         key={index}
+                                        id={el.id}
                                         title={el.attributes.title}
                                         category={el.attributes.categories.data[0].attributes.name}
                                         createdAt={el.attributes.createdAt}
@@ -153,14 +154,15 @@ const CSBlogPage: React.FC = () => {
                     }
                 </div>
             </div>
-            <div className="container-all-article">
+            <div className="container-all-article px-8">
                 {
                     articles.map((el, index) => {
                         return (
                             isLoading
-                                ? <CSCardArticleSkeleton />
+                                ? <CSCardArticleSkeleton key={index} />
                                 : <CSCardArticle
                                     key={index}
+                                    id={el.id}
                                     title={el.attributes.title}
                                     content={el.attributes.content}
                                     category={el.attributes.categories.data[0].attributes.name}

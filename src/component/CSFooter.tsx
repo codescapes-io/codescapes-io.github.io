@@ -23,7 +23,7 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <h3 >About Us</h3>
+                        <h3 className='font-bold' >About Us</h3>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>
@@ -33,7 +33,7 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <h3 >Our Product</h3>
+                        <h3 className='font-bold' >Our Product</h3>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>
@@ -43,7 +43,7 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <h3 >Our Product</h3>
+                        <h3 className='font-bold'>Our Product</h3>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>

@@ -135,7 +135,6 @@ const CSBlogPage: React.FC = () => {
                     <Typography variant='h1' sx={{ fontSize: { md: '3rem', xs: '1.5rem' } }}>
                         Popular This Month
                     </Typography>
-                    <p>created on 27 Mei 2021</p>
                 </div>
                 <Box className="container-card-row" sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                     {

@@ -6,11 +6,6 @@ import { CardArticleProps } from './CSCardArticle';
 import DateFormater from '../func/DateFormater'
 
 const CSHeroSlider: React.FC<CardArticleProps> = (props) => {
-    // let date = new Date(props.createdAt);
-    // let month = ["January", "February", "March", "April", "May", "June",
-    //     "July", "August", "September", "October", "November", "December"];
-    // let formatDate = `${date.getDay()}  ${month[date.getMonth()]}  ${date.getFullYear()}`
-
     return (
         <div className={`content-wrap-blog ${props.class}`}>
             <Typography

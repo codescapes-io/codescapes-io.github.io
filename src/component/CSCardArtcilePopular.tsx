@@ -3,12 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
 import { CardArticleProps } from './CSCardArticle';
+import DateFormater from '../func/DateFormater'
+
 
 const CSCardArtcilePopular: React.FC<CardArticleProps> = (props) => {
-    let date = new Date(props.createdAt);
-    let month = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
-    let formatDate = `${date.getDay()}  ${month[date.getMonth()]}  ${date.getFullYear()}`
     return (
         <Box className='card-article-popular' sx={{ mx: '2rem', mb: '2rem' }}>
             <Typography
@@ -31,7 +29,7 @@ const CSCardArtcilePopular: React.FC<CardArticleProps> = (props) => {
             </div>
             <div className="article-writer light">
                 <CSWriterAvatar />
-                <p><strong>{props.writer}</strong> {formatDate}</p>
+                <p><strong>{props.writer}</strong> {DateFormater(props.createdAt)}</p>
             </div>
         </Box>
     );

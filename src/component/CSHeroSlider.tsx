@@ -3,12 +3,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
 import { CardArticleProps } from './CSCardArticle';
+import DateFormater from '../func/DateFormater'
 
 const CSHeroSlider: React.FC<CardArticleProps> = (props) => {
-    let date = new Date(props.createdAt);
-    let month = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
-    let formatDate = `${date.getDay()}  ${month[date.getMonth()]}  ${date.getFullYear()}`
+    // let date = new Date(props.createdAt);
+    // let month = ["January", "February", "March", "April", "May", "June",
+    //     "July", "August", "September", "October", "November", "December"];
+    // let formatDate = `${date.getDay()}  ${month[date.getMonth()]}  ${date.getFullYear()}`
 
     return (
         <div className={`content-wrap-blog ${props.class}`}>
@@ -32,7 +33,7 @@ const CSHeroSlider: React.FC<CardArticleProps> = (props) => {
             </Typography>
             <div className="article-writer">
                 <CSWriterAvatar />
-                <p><strong>{props.writer}</strong> on {formatDate}</p>
+                <p><strong>{props.writer}</strong> on {DateFormater(props.createdAt)}</p>
             </div>
         </div>
     );

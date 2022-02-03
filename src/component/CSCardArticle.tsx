@@ -2,6 +2,8 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
+import DateFormater from '../func/DateFormater'
+
 
 export interface CardArticleProps {
     id?: number
@@ -14,10 +16,6 @@ export interface CardArticleProps {
 }
 
 const CSCardArticle: React.FC<CardArticleProps> = (props) => {
-    let date = new Date(props.createdAt);
-    let month = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
-    let formatDate = `${date.getDay()}  ${month[date.getMonth()]}  ${date.getFullYear()}`
     return (
         <Box
             className='container-article-ads'
@@ -62,7 +60,7 @@ const CSCardArticle: React.FC<CardArticleProps> = (props) => {
                     </Typography>
                     <div className="article-writer">
                         <CSWriterAvatar />
-                        <p><strong>{props.writer}</strong> on {formatDate}</p>
+                        <p><strong>{props.writer}</strong> on {DateFormater(props.createdAt)}</p>
                     </div>
                 </Box>
             </div>

@@ -63,6 +63,8 @@
 
 .container-slider {
     display: flex;
+    flex-basis: 100%;
+    margin: 0 1.75rem;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -254,11 +256,6 @@
     z-index: 1;
 }
 
-.content-wrap-card p {
-    font-size: 12px;
-    line-height: 195.9%;
-}
-
 .container-article-ads {
     display: flex;
     justify-content: space-around;
@@ -267,8 +264,15 @@
   }
 
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 900px) {
     .hero-img::after{
         background: linear-gradient(270deg, #FFFFFF 38.62%, rgba(255, 255, 255, 0) 100%);
     }
+    .container-slider {
+        flex-basis: 40%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    
 }

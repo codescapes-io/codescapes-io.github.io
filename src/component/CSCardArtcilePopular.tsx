@@ -1,3 +1,4 @@
+import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
@@ -9,9 +10,22 @@ const CSCardArtcilePopular: React.FC<CardArticleProps> = (props) => {
         "July", "August", "September", "October", "November", "December"];
     let formatDate = `${date.getDay()}  ${month[date.getMonth()]}  ${date.getFullYear()}`
     return (
-        <div className='card-article-popular mx-8 mb-8'>
-            <p className='bold-yellow text-xs lg:text-base'>{props.category}</p>
-            <Link to={`/blog/${props.id}`}><h1 className='text-4xl'>{props.title} </h1></Link>
+        <Box className='card-article-popular' sx={{ mx: '2rem', mb: '2rem' }}>
+            <Typography
+                variant='body1'
+                className='bold-yellow'
+                sx={{
+                    fontSize: { xs: '12px', md: '16px' },
+                    fontWeight: '600'
+                }}
+            >
+                {props.category}
+            </Typography>
+            <Link to={`/blog/${props.id}`}>
+                <Typography variant='h1' sx={{ fontSize: '2.25rem' }}>
+                    {props.title}
+                </Typography>
+            </Link>
             <div className="card-button">
                 <button>Learn more</button>
             </div>
@@ -19,7 +33,7 @@ const CSCardArtcilePopular: React.FC<CardArticleProps> = (props) => {
                 <CSWriterAvatar />
                 <p><strong>{props.writer}</strong> {formatDate}</p>
             </div>
-        </div>
+        </Box>
     );
 };
 

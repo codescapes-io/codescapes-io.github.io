@@ -7,7 +7,12 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+section {
+  font-family: 'Montserrat', sans-serif !important;
+
 }
 
 .App {
@@ -71,7 +76,7 @@ footer {
   margin: 18px 0;
 }
 
-.footer-label h3 {
+.footer-label p {
   margin: 0;
   margin-bottom: 4px;
   color: #6B6B6B;
@@ -93,6 +98,14 @@ footer {
   margin-bottom: 30px;
   text-decoration: none;
   color: #6B6B6B;
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 1024px) {
+  
 }
 
 

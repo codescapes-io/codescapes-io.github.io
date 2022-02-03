@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     BrowserRouter as Router,
     Routes,
@@ -8,54 +8,113 @@ import {
 import Docs from '../view/Docs';
 import HomePage from '../view/CSHomePage'
 import CSBlogPage from '../view/CSBlogPage';
-// import CSArticle from '../view/CSArticle';
 import CSMenuIcons from '../assets/icons/CSMenuIcons';
 import CSCloseIcons from '../assets/icons/CSCloseIcons';
+import { Drawer, List, ListItem, ListItemIcon } from '@mui/material';
+import { Box } from '@mui/system';
 
 const Navbar: React.FC = () => {
+    const [drawer, setDrawer] = useState(false);
 
-    const handleClick = () => {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar?.classList.remove('translate-x-full');
-    }
-
-    const handleClose = () => {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar?.classList.add('translate-x-full');
-    }
+    const handleClick = () => { setDrawer(true) }
+    const handleClose = () => { setDrawer(false) }
 
     return (
         <Router>
-            <nav className='justify-end md:justify-center'>
-                <div className='logo block'>
+            <nav >
+                <div className='logo'>
                     <img src="/logo-bve-light.png" alt="logo-bve" />
                 </div>
-                <ul className='hidden md:flex'>
+                <ul>
                     <li><NavLink to="/">HOME</NavLink></li>
                     <li><NavLink to="/docs">DOCS</NavLink></li>
                     <li><NavLink to="/pricing">PRICING</NavLink></li>
                     <li><NavLink to="/blog">BLOG</NavLink></li>
                 </ul>
-                <div className='block m-8 md:hidden' onClick={handleClick}>
+                <Box
+                    sx={{ display: { md: 'none' }, m: '32px' }}
+                    onClick={handleClick}>
                     <CSMenuIcons />
-                </div>
+                </Box>
             </nav>
-            <div
-                className="flex flex-col items-center w-1/2 z-10 translate-x-full fixed right-0 top-0 transition-transform sidebar">
-                <div className='m-8 self-end' onClick={handleClose}>
-                    <CSCloseIcons />
-                </div>
-                <NavLink onClick={handleClose} to="/" className='text-base text-white mb-3'>HOME</NavLink>
-                <NavLink onClick={handleClose} to="/docs" className='text-base text-white mb-3'>DOCS</NavLink>
-                <NavLink onClick={handleClose} to="/pricing" className='text-base text-white mb-3'>PRICING</NavLink>
-                <NavLink onClick={handleClose} to="/blog" className='text-base text-white mb-3'>BLOG</NavLink>
-            </div>
-            <div className="hidden w-full shadow"></div>
+            <Drawer
+                anchor='right'
+                open={drawer}
+                onClick={handleClose}
+            >
+                <Box sx={{ width: 200, height: '100%', backgroundColor: '#4B4B4B' }}>
+                    <List>
+                        <ListItem alignItems='center'
+                            sx={{
+                                marginBottom: '10px',
+                                padding: '32px',
+                                justifyContent: 'flex-end',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <ListItemIcon sx={{ minWidth: 'fit-content' }}>
+                                <CSCloseIcons />
+                            </ListItemIcon>
+                        </ListItem>
+                        <ListItem
+                            sx={{
+                                padding: 0,
+                                marginBottom: '12px',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                color: 'white',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <NavLink onClick={handleClose} to="/">HOME</NavLink>
+                        </ListItem>
+                        <ListItem
+                            sx={{
+                                padding: 0,
+                                marginBottom: '12px',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                color: 'white',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <NavLink onClick={handleClose} to="/docs">DOCS</NavLink>
+                        </ListItem>
+                        <ListItem
+                            sx={{
+                                padding: 0,
+                                marginBottom: '12px',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                color: 'white',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <NavLink onClick={handleClose} to="/pricing">PRICING</NavLink>
+                        </ListItem>
+                        <ListItem
+                            sx={{
+                                padding: 0,
+                                marginBottom: '12px',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                color: 'white',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <NavLink onClick={handleClose} to="/blog">BLOG</NavLink>
+                        </ListItem>
+                    </List>
+                </Box>
+            </Drawer>
             <Routes>
                 <Route path='/' element={<HomePage />} />
                 <Route path='/docs' element={<Docs />} />
                 <Route path='/blog' element={<CSBlogPage />} />
-                {/* <Route path='/blog/:id' element={<CSArticle />} /> */}
             </Routes>
         </Router>
     )

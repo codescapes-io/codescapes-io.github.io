@@ -4,7 +4,7 @@ import CSCardArticle from '../component/CSCardArticle';
 import CSCardArticlePopular from '../component/CSCardArtcilePopular';
 import CSEmailSubscribe from '../component/CSEmailSubscribe';
 import CSHeroSlider from '../component/CSHeroSlider';
-import { Skeleton } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import CSHeroSliderSkeleton from '../component/skeleton/CSHeroSliderSkeleton';
 import CSCardPopularSkeleton from '../component/skeleton/CSCardPopularSkeleton';
 import CSCardArticleSkeleton from '../component/skeleton/CSCardArticleSkeleton';
@@ -93,7 +93,7 @@ const CSBlogPage: React.FC = () => {
                             className='hero-img active-img'
                         ></div>
                 }
-                <div className="container-slider basis-full mx-7 md:basis-2/5">
+                <div className="container-slider">
                     {
                         isLoading
                             ? <CSHeroSliderSkeleton />
@@ -132,10 +132,12 @@ const CSBlogPage: React.FC = () => {
             </div>
             <div className="container-popular-article">
                 <div className="header-popular">
-                    <h1 className='text-2xl lg:text-5xl'>Popular This Month</h1>
+                    <Typography variant='h1' sx={{ fontSize: { md: '3rem', xs: '1.5rem' } }}>
+                        Popular This Month
+                    </Typography>
                     <p>created on 27 Mei 2021</p>
                 </div>
-                <div className="container-card-row flex-col lg:flex-row">
+                <Box className="container-card-row" sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                     {
                         popularArticle.map((el, index) => {
                             return (
@@ -152,9 +154,9 @@ const CSBlogPage: React.FC = () => {
                             )
                         })
                     }
-                </div>
+                </Box>
             </div>
-            <div className="container-all-article px-8">
+            <Box className="container-all-article" sx={{ px: '2rem' }}>
                 {
                     articles.map((el, index) => {
                         return (
@@ -172,7 +174,7 @@ const CSBlogPage: React.FC = () => {
                         )
                     })
                 }
-            </div>
+            </Box>
             <CSEmailSubscribe />
         </section>
     );

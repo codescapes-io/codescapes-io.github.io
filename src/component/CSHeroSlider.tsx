@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
@@ -11,9 +12,24 @@ const CSHeroSlider: React.FC<CardArticleProps> = (props) => {
 
     return (
         <div className={`content-wrap-blog ${props.class}`}>
-            <p className='bold-yellow text-xs md:text-base'>{props.category}</p>
-            <Link to={`/blog/${props.id}`}><h1 className='text-4xl md:text-5xl'>{props.title}</h1></Link>
-            <p className='text-xs md:text-base'>{props.content}</p>
+            <Typography
+                variant='body1'
+                className='bold-yellow'
+                sx={{
+                    fontSize: { xs: '12px', md: '16px' },
+                    fontWeight: '600'
+                }}
+            >
+                {props.category}
+            </Typography>
+            <Link to={`/blog/${props.id}`}>
+                <Typography variant='h1' sx={{ fontSize: { xs: '2.25rem', md: '3rem' } }}>
+                    {props.title}
+                </Typography>
+            </Link>
+            <Typography variant='body1' sx={{ fontSize: { xs: '12px', md: '16px' } }}>
+                {props.content}
+            </Typography>
             <div className="article-writer">
                 <CSWriterAvatar />
                 <p><strong>{props.writer}</strong> on {formatDate}</p>

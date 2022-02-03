@@ -144,7 +144,8 @@ a.learn-more {
   border-radius: 9px;
   margin-right: 24px;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
+  padding: 1rem 0.75rem;
 }
 
 .subs-body button {
@@ -155,4 +156,14 @@ a.learn-more {
   font-weight: bold;
   cursor: pointer;
   background-color: #F7B93B;
+}
+
+@media screen and (min-width: 900px) {
+  .subs-body input { 
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  
 }

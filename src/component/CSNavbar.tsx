@@ -14,10 +14,10 @@ import { Drawer, List, ListItem, ListItemIcon } from '@mui/material';
 import { Box } from '@mui/system';
 
 const Navbar: React.FC = () => {
-    const [drawer, setDrawer] = useState(false);
+    const [bDrawerOpen, setDrawerOpen] = useState(false);
 
-    const handleClick = () => { setDrawer(true) }
-    const handleClose = () => { setDrawer(false) }
+    const handleClick = () => { setDrawerOpen(true) }
+    const handleClose = () => { setDrawerOpen(false) }
 
     return (
         <Router>
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
             </nav>
             <Drawer
                 anchor='right'
-                open={drawer}
+                open={bDrawerOpen}
                 onClick={handleClose}
             >
                 <Box sx={{ width: 200, height: '100%', backgroundColor: '#4B4B4B' }}>

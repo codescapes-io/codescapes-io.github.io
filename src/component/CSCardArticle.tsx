@@ -1,7 +1,12 @@
+import { Box, Typography } from '@mui/material';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
+import DateFormater from '../func/DateFormater'
+
 
 export interface CardArticleProps {
+    id?: number
     class?: string
     title: string
     content?: string
@@ -11,27 +16,58 @@ export interface CardArticleProps {
 }
 
 const CSCardArticle: React.FC<CardArticleProps> = (props) => {
-    let date = new Date(props.createdAt);
-    let month = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"];
-    let formatDate = `${date.getDay()}  ${month[date.getMonth()]}  ${date.getFullYear()}`
     return (
-        <div className='container-article-ads'>
-            <div className='card-article' style={{ backgroundImage: `url(${process.env.REACT_APP_BASE_URL + '/uploads/article_img_77492e10a8.png'})` }}>
-                <div className="content-wrap-card">
-                    <p className='bold-yellow'>{props.category}</p>
-                    <h1>{props.title}</h1>
-                    <p>{props.content}</p>
+        <Box
+            className='container-article-ads'
+            sx={{
+                flexDirection: { xs: 'column', md: 'row' },
+                mx: '2rem'
+            }}
+        >
+            <div className='card-article'>
+                <div
+                    style={{ backgroundImage: `url(${process.env.REACT_APP_BASE_URL + '/uploads/article_img_77492e10a8.png'})` }}
+                    className='hero-img active-img'
+                >
+                </div>
+                <Box
+                    className="content-wrap-card"
+                    sx={{
+                        px: '0.875rem',
+                        pb: '0.875rem',
+                        pt: { xs: '4rem', md: '1.5rem' },
+                        width: { xs: '100%', md: '50%' }
+                    }}
+                >
+                    <Typography
+                        className='bold-yellow'
+                        variant='body1'
+                        sx={{
+                            fontSize: { xs: '12px', md: '16px' },
+                            fontWeight: '600'
+                        }}
+                    >
+                        {props.category}
+                    </Typography>
+                    <Link to={`/blog/${props.id}`}>
+                        <Typography variant='h1' sx={{ fontSize: '2.25rem' }}>
+                            {props.title}
+                        </Typography>
+                    </Link>
+
+                    <Typography variant='body1' sx={{ fontSize: { xs: '12px', md: '16px' } }}>
+                        {props.content}
+                    </Typography>
                     <div className="article-writer">
                         <CSWriterAvatar />
-                        <p><strong>{props.writer}</strong> on {formatDate}</p>
+                        <p><strong>{props.writer}</strong> on {DateFormater(props.createdAt)}</p>
                     </div>
-                </div>
+                </Box>
             </div>
             <div className="card-ads">
                 ads here
             </div>
-        </div>
+        </Box>
     )
 };
 

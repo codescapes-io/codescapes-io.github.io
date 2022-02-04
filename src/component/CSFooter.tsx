@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 import CSIDialog from '../assets/icons/CSIDialog';
 import CSIFacebook from '../assets/icons/CSIFacebook';
@@ -23,7 +24,7 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <h3 >About Us</h3>
+                        <Typography variant='body1' sx={{ fontWeight: '600' }}>About Us</Typography>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>
@@ -33,7 +34,7 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <h3 >Our Product</h3>
+                        <Typography variant='body1' sx={{ fontWeight: '600' }}>Our Product</Typography>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>
@@ -43,7 +44,7 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <h3 >Our Product</h3>
+                        <Typography variant='body1' sx={{ fontWeight: '600' }}>Our Product</Typography>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>

@@ -4,7 +4,7 @@ import CSCardArticle from '../component/CSCardArticle';
 import CSCardArticlePopular from '../component/CSCardArtcilePopular';
 import CSEmailSubscribe from '../component/CSEmailSubscribe';
 import CSHeroSlider from '../component/CSHeroSlider';
-import { Skeleton } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import CSHeroSliderSkeleton from '../component/skeleton/CSHeroSliderSkeleton';
 import CSCardPopularSkeleton from '../component/skeleton/CSCardPopularSkeleton';
 import CSCardArticleSkeleton from '../component/skeleton/CSCardArticleSkeleton';
@@ -88,11 +88,10 @@ const CSBlogPage: React.FC = () => {
                             animation='wave'
                             style={{ position: 'absolute' }}
                         />
-                        : <img
-                            src={heroImgUrl}
-                            alt='hero-slider'
+                        : <div
+                            style={{ backgroundImage: `url(${heroImgUrl})` }}
                             className='hero-img active-img'
-                        />
+                        ></div>
                 }
                 <div className="container-slider">
                     {
@@ -102,6 +101,7 @@ const CSBlogPage: React.FC = () => {
                                 return (
                                     <CSHeroSlider
                                         key={index}
+                                        id={el.id}
                                         class={index === dotActive ? 'active-blog' : ''}
                                         title={el.attributes.title}
                                         category={el.attributes.categories.data[0].attributes.name}
@@ -132,17 +132,19 @@ const CSBlogPage: React.FC = () => {
             </div>
             <div className="container-popular-article">
                 <div className="header-popular">
-                    <h1>Popular This Month</h1>
-                    <p>created on 27 Mei 2021</p>
+                    <Typography variant='h1' sx={{ fontSize: { md: '3rem', xs: '1.5rem' } }}>
+                        Popular This Month
+                    </Typography>
                 </div>
-                <div className="container-card-row">
+                <Box className="container-card-row" sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                     {
                         popularArticle.map((el, index) => {
                             return (
                                 isLoading
-                                    ? <CSCardPopularSkeleton />
+                                    ? <CSCardPopularSkeleton key={index} />
                                     : <CSCardArticlePopular
                                         key={index}
+                                        id={el.id}
                                         title={el.attributes.title}
                                         category={el.attributes.categories.data[0].attributes.name}
                                         createdAt={el.attributes.createdAt}
@@ -151,16 +153,17 @@ const CSBlogPage: React.FC = () => {
                             )
                         })
                     }
-                </div>
+                </Box>
             </div>
-            <div className="container-all-article">
+            <Box className="container-all-article" sx={{ px: '2rem' }}>
                 {
                     articles.map((el, index) => {
                         return (
                             isLoading
-                                ? <CSCardArticleSkeleton />
+                                ? <CSCardArticleSkeleton key={index} />
                                 : <CSCardArticle
                                     key={index}
+                                    id={el.id}
                                     title={el.attributes.title}
                                     content={el.attributes.content}
                                     category={el.attributes.categories.data[0].attributes.name}
@@ -170,7 +173,7 @@ const CSBlogPage: React.FC = () => {
                         )
                     })
                 }
-            </div>
+            </Box>
             <CSEmailSubscribe />
         </section>
     );

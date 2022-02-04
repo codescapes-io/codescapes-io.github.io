@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React from 'react';
 import CSIDialog from '../assets/icons/CSIDialog';
 import CSIFacebook from '../assets/icons/CSIFacebook';
@@ -11,7 +11,7 @@ import CSIYoutube from '../assets/icons/CSIYoutube';
 const CSFooter = () => {
     return (
         <footer>
-            <div className="footer-body">
+            <Box className="footer-body" sx={{ justifyContent: { xs: 'flex-start', sm: 'center' } }}>
                 <div className="footer-setting">
                     <div className="setting-wrap">
                         <CSIQuestion />
@@ -52,7 +52,7 @@ const CSFooter = () => {
                         <a href="/">lorem</a>
                     </div>
                 </div>
-            </div>
+            </Box>
             <div className="footer-bottom">
                 <CSIFacebook />
                 <CSITwitter />

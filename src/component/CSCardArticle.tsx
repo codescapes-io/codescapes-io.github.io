@@ -21,7 +21,7 @@ const CSCardArticle: React.FC<CardArticleProps> = (props) => {
             className='container-article-ads'
             sx={{
                 flexDirection: { xs: 'column', md: 'row' },
-                mx: '2rem'
+                // mx: '2rem'
             }}
         >
             <div className='card-article'>
@@ -36,7 +36,7 @@ const CSCardArticle: React.FC<CardArticleProps> = (props) => {
                         px: '0.875rem',
                         pb: '0.875rem',
                         pt: { xs: '4rem', md: '1.5rem' },
-                        width: { xs: '100%', md: '50%' }
+                        width: { xs: '90%', md: '50%' }
                     }}
                 >
                     <Typography
@@ -50,7 +50,7 @@ const CSCardArticle: React.FC<CardArticleProps> = (props) => {
                         {props.category}
                     </Typography>
                     <Link to={`/blog/${props.id}`}>
-                        <Typography variant='h1' sx={{ fontSize: '2.25rem' }}>
+                        <Typography variant='h1' sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
                             {props.title}
                         </Typography>
                     </Link>

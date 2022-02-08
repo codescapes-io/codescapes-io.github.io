@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CSCardArticle from '../component/CSCardArticle';
-import CSCardArticlePopular from '../component/CSCardArtcilePopular';
-import CSEmailSubscribe from '../component/CSEmailSubscribe';
-import CSHeroSlider from '../component/CSHeroSlider';
+import CSCardArticle from '../../component/CSCardArticle';
+import CSCardArticlePopular from '../../component/CSCardArtcilePopular';
+import CSEmailSubscribe from '../../component/CSEmailSubscribe';
+import CSHeroSlider from '../../component/CSHeroSlider';
 import { Box, Skeleton, Typography } from '@mui/material';
-import CSHeroSliderSkeleton from '../component/skeleton/CSHeroSliderSkeleton';
-import CSCardPopularSkeleton from '../component/skeleton/CSCardPopularSkeleton';
-import CSCardArticleSkeleton from '../component/skeleton/CSCardArticleSkeleton';
+import CSHeroSliderSkeleton from '../../component/skeleton/CSHeroSliderSkeleton';
+import CSCardPopularSkeleton from '../../component/skeleton/CSCardPopularSkeleton';
+import CSCardArticleSkeleton from '../../component/skeleton/CSCardArticleSkeleton';
 
 export interface BlogProps {
     articleList: {
@@ -77,11 +77,12 @@ const CSBlogPage: React.FC = () => {
     }
 
     return (
-        <section>
+        <section title='blog'>
             <div className="container-hero-blog">
                 {
                     isLoading
                         ? <Skeleton
+                            data-testid='skeleton-hero-img'
                             variant='rectangular'
                             width='100%'
                             height='100%'
@@ -89,11 +90,12 @@ const CSBlogPage: React.FC = () => {
                             style={{ position: 'absolute' }}
                         />
                         : <div
+                            title='hero-img'
                             style={{ backgroundImage: `url(${heroImgUrl})` }}
                             className='hero-img active-img'
                         ></div>
                 }
-                <div className="container-slider">
+                <div className="container-slider" title='container-slider'>
                     {
                         isLoading
                             ? <CSHeroSliderSkeleton />
@@ -118,6 +120,7 @@ const CSBlogPage: React.FC = () => {
                             popularArticle.map((el, index) => {
                                 return (
                                     <span
+                                        title='dot-sliders'
                                         key={index}
                                         onClick={() => handleSlide(index)}
                                         className={dotActive === index ? 'dot active-dot' : 'dot'}
@@ -138,11 +141,15 @@ const CSBlogPage: React.FC = () => {
                 </div>
                 <Box className="container-card-row" sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                     {
-                        popularArticle.map((el, index) => {
-                            return (
-                                isLoading
-                                    ? <CSCardPopularSkeleton key={index} />
-                                    : <CSCardArticlePopular
+                        isLoading
+                            ? <>
+                                <CSCardPopularSkeleton />
+                                <CSCardPopularSkeleton />
+                                <CSCardPopularSkeleton />
+                            </>
+                            : popularArticle.map((el, index) => {
+                                return (
+                                    <CSCardArticlePopular
                                         key={index}
                                         id={el.id}
                                         title={el.attributes.title}
@@ -150,18 +157,22 @@ const CSBlogPage: React.FC = () => {
                                         createdAt={el.attributes.createdAt}
                                         writer={el.attributes.users_permissions_user.data.attributes.name}
                                     />
-                            )
-                        })
+                                )
+                            })
                     }
                 </Box>
             </div>
             <Box className="container-all-article" sx={{ px: '2rem' }}>
                 {
-                    articles.map((el, index) => {
-                        return (
-                            isLoading
-                                ? <CSCardArticleSkeleton key={index} />
-                                : <CSCardArticle
+                    isLoading
+                        ? <>
+                            <CSCardArticleSkeleton />
+                            <CSCardArticleSkeleton />
+                            <CSCardArticleSkeleton />
+                        </>
+                        : articles.map((el, index) => {
+                            return (
+                                <CSCardArticle
                                     key={index}
                                     id={el.id}
                                     title={el.attributes.title}
@@ -170,8 +181,8 @@ const CSBlogPage: React.FC = () => {
                                     createdAt={el.attributes.createdAt}
                                     writer={el.attributes.users_permissions_user.data.attributes.name}
                                 />
-                        )
-                    })
+                            )
+                        })
                 }
             </Box>
             <CSEmailSubscribe />

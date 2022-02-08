@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import CSIFeature from '../assets/image/CSIFeature';
-import CSEmailSubscribe from '../component/CSEmailSubscribe';
+import CSIFeature from '../../assets/image/CSIFeature';
+import CSEmailSubscribe from '../../component/CSEmailSubscribe';
 
 export interface HomeProps {
     attributes: {
@@ -66,9 +66,9 @@ const Home: React.FC = () => {
     }, [])
 
     return (
-        <section id='home'>
+        <section id='home' title='home'>
             <div className="container-hero">
-                <h1>{content?.attributes.title}</h1>
+                <h1 title='header-content'>{content?.attributes.title}</h1>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                 <button>Get Started Free</button>
             </div>
@@ -103,7 +103,7 @@ const Home: React.FC = () => {
             <div className="tech-compatible">
                 {content?.attributes.techs.data.map(el => {
                     return (
-                        <img key={el.id} src={`${process.env.REACT_APP_BASE_URL}${el.attributes.url}`} alt="" />
+                        <img title='techs' key={el.id} src={`${process.env.REACT_APP_BASE_URL}${el.attributes.url}`} alt="" />
                     )
                 })}
             </div>

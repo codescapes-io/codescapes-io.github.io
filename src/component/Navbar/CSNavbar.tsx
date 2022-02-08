@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Routes,
     Route,
     NavLink
 } from "react-router-dom";
-import Docs from '../view/Docs';
-import HomePage from '../view/CSHomePage'
-import CSBlogPage from '../view/CSBlogPage';
-import CSMenuIcons from '../assets/icons/CSMenuIcons';
-import CSCloseIcons from '../assets/icons/CSCloseIcons';
+import Docs from '../../view/Docs';
+import HomePage from '../../view/CSHomePage/CSHomePage'
+import CSBlogPage from '../../view/CSBlogPage/CSBlogPage';
+import CSMenuIcons from '../../assets/icons/CSMenuIcons';
+import CSCloseIcons from '../../assets/icons/CSCloseIcons';
 import { Drawer, List, ListItem, ListItemIcon } from '@mui/material';
 import { Box } from '@mui/system';
-import CSArticle from '../view/CSArticle';
+import CSArticle from '../../view/CSArticle';
 
 const Navbar: React.FC = () => {
     const [bDrawerOpen, setDrawerOpen] = useState(false);
@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
 
     return (
         <Router>
-            <nav >
+            <nav title='navbar'>
                 <div className='logo'>
                     <img src="/logo-bve-light.png" alt="logo-bve" />
                 </div>
@@ -33,12 +33,14 @@ const Navbar: React.FC = () => {
                     <li><NavLink to="/blog">BLOG</NavLink></li>
                 </ul>
                 <Box
+                    title='menu-icon'
                     sx={{ display: { md: 'none' }, m: '32px' }}
                     onClick={handleClick}>
                     <CSMenuIcons />
                 </Box>
             </nav>
             <Drawer
+                title='side-drawer'
                 anchor='right'
                 open={bDrawerOpen}
                 onClose={handleClose}
@@ -53,7 +55,7 @@ const Navbar: React.FC = () => {
                                 alignItems: 'center'
                             }}
                         >
-                            <ListItemIcon sx={{ minWidth: 'fit-content' }} onClick={handleClose}>
+                            <ListItemIcon sx={{ minWidth: 'fit-content' }} title='close-icon' onClick={handleClose}>
                                 <CSCloseIcons />
                             </ListItemIcon>
                         </ListItem>
@@ -123,6 +125,7 @@ const Navbar: React.FC = () => {
                 <Route path='/blog/:id' element={<CSArticle />} />
             </Routes>
         </Router>
+
     )
 }
 

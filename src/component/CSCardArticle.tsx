@@ -5,7 +5,7 @@ import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
 import DateFormater from '../func/DateFormater'
 
 
-export interface CardArticleProps {
+export interface CSICardArticleProps {
     id?: number
     class?: string
     title: string
@@ -15,7 +15,7 @@ export interface CardArticleProps {
     writer: string
 }
 
-const CSCardArticle: React.FC<CardArticleProps> = (props) => {
+const CSCardArticle: React.FC<CSICardArticleProps> = (props) => {
     return (
         <Box
             className='container-article-ads'

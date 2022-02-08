@@ -2,10 +2,10 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
-import { CardArticleProps } from './CSCardArticle';
+import { CSICardArticleProps } from './CSCardArticle';
 import DateFormater from '../func/DateFormater'
 
-const CSHeroSlider: React.FC<CardArticleProps> = (props) => {
+const CSHeroSlider: React.FC<CSICardArticleProps> = (props) => {
     return (
         <div className={`content-wrap-blog ${props.class}`} title='hero-slider'>
             <Typography

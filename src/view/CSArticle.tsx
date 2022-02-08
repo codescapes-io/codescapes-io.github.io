@@ -6,46 +6,17 @@ import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
 import DateFormater from '../func/DateFormater';
 import CSEmailSubscribe from '../component/CSEmailSubscribe';
 import CSCommentSection from '../component/CSCommentSection';
-
-export interface CSArticleProps {
-    id: number
-    attributes: {
-        title: string
-        content: string
-        createdAt: string
-        updatedAt: string
-        publishedAt: string
-        read: string
-        categories: {
-            data: {
-                id: number
-                attributes: {
-                    name: string
-                }
-            }[]
-        }
-        users_permissions_user: {
-            data: {
-                id: number
-                attributes: {
-                    username: string
-                    email: string
-                    name: string
-                }
-            }
-        }
-    }
-}
+import { CSIEachArticleProps } from './CSBlogPage/CSBlogPage';
 
 const CSArticle: React.FC = () => {
-    const [article, setArticle] = useState<CSArticleProps>();
+    const [article, setArticle] = useState<CSIEachArticleProps['data']>();
     const { id } = useParams();
     const [contentArticle, setContentArticle] = useState(['']);
 
     useEffect(() => {
         let cancel = false
         const fetchData = async () => {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/articles/${id}?populate=categories,users_permissions_user`)
+            const response = await axios.get<CSIEachArticleProps>(`${process.env.REACT_APP_BASE_URL}/api/articles/${id}?populate=categories,users_permissions_user`)
             if (cancel) return;
             setArticle(response.data.data)
             setContentArticle(response.data.data.attributes.content.split('\n').filter((item: string) => item.length));

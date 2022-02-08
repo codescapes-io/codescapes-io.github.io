@@ -3,59 +3,63 @@ import axios from 'axios';
 import CSIFeature from '../../assets/image/CSIFeature';
 import CSEmailSubscribe from '../../component/CSEmailSubscribe';
 
-export interface HomeProps {
+export interface CSITechsProps {
+    id: number
     attributes: {
-        title: string
-        createdAt: string
-        updateAt: string
-        publishedAt: string
-        techs: {
-            data: {
-                id: number
-                attributes: {
-                    name: string
-                    alternativeText: string
-                    caption: string
-                    width: number
-                    height: number
-                    url: string
-                    formats: {
-                        thumbnail: {
-                            name: string
-                            width: number
-                            height: number
-                            size: number
-                            url: string
-                        },
-                        medium: {
-                            name: string
-                            width: number
-                            height: number
-                            size: number
-                            url: string
-                        },
-                        small: {
-                            name: string
-                            width: number
-                            height: number
-                            size: number
-                            url: string
-                        }
-                    }
-                }
-            }[]
+        name: string
+        alternativeText: string
+        caption: string
+        width: number
+        height: number
+        url: string
+        formats: {
+            thumbnail: {
+                name: string
+                width: number
+                height: number
+                size: number
+                url: string
+            },
+            medium: {
+                name: string
+                width: number
+                height: number
+                size: number
+                url: string
+            },
+            small: {
+                name: string
+                width: number
+                height: number
+                size: number
+                url: string
+            }
         }
     }
-    id: number
+}
+
+export interface CSIHomeProps {
+    data: {
+        id: number
+        attributes: {
+            title: string
+            createdAt: string
+            updateAt: string
+            publishedAt: string
+            techs: {
+                data: CSITechsProps[]
+            }
+        }
+    }
 }
 
 const Home: React.FC = () => {
-    const [content, setContent] = useState<HomeProps>()
+    const [content, setContent] = useState<CSIHomeProps['data']>()
 
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
+            const response = await axios.get<CSIHomeProps>(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
             if (cancel) return;
             setContent(response.data.data);
         }

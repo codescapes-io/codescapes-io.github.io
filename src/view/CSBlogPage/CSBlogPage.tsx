@@ -9,41 +9,51 @@ import CSHeroSliderSkeleton from '../../component/skeleton/CSHeroSliderSkeleton'
 import CSCardPopularSkeleton from '../../component/skeleton/CSCardPopularSkeleton';
 import CSCardArticleSkeleton from '../../component/skeleton/CSCardArticleSkeleton';
 
-export interface BlogProps {
-    articleList: {
-        id: number
-        attributes: {
-            title: string
-            content: string
-            createdAt: string
-            updatedAt: string
-            publishedAt: string
-            read: string
-            categories: {
-                data: {
-                    id: number
-                    attributes: {
-                        name: string
-                    }
-                }[]
-            }
-            users_permissions_user: {
-                data: {
-                    id: number
-                    attributes: {
-                        username: string
-                        email: string
-                        name: string
-                    }
-                }
-            }
+export interface CSICategoriesProps {
+    id: number
+    attributes: {
+        name: string
+    }
+}
+
+export interface CSIUsersProps {
+    id: number
+    attributes: {
+        username: string
+        email: string
+        name: string
+    }
+}
+
+export interface CSIArticleProps {
+    id: number
+    attributes: {
+        title: string
+        content: string
+        createdAt: string
+        updatedAt: string
+        publishedAt: string
+        read: string
+        categories: {
+            data: CSICategoriesProps[]
         }
-    }[]
+        users_permissions_user: {
+            data: CSIUsersProps
+        }
+    }
+}
+
+export interface CSIArticleListProps {
+    data: CSIArticleProps[]
+}
+
+export interface CSIEachArticleProps {
+    data: CSIArticleProps
 }
 
 const CSBlogPage: React.FC = () => {
-    const [articles, setArticles] = useState<BlogProps['articleList']>([]);
-    const [popularArticle, setPopularArticle] = useState<BlogProps['articleList']>([]);
+    const [articles, setArticles] = useState<CSIArticleListProps['data']>([]);
+    const [popularArticle, setPopularArticle] = useState<CSIArticleListProps['data']>([]);
     const [dotActive, setDotActive] = useState<number>(0);
     const [heroImgUrl, setHeroImgUrl] = useState<string>();
     const [isLoading, setLoading] = useState(true)
@@ -51,8 +61,8 @@ const CSBlogPage: React.FC = () => {
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&&pagination[pageSize]=3`);
-            const responseSort = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&pagination[pageSize]=3&sort[0]=read%3Adesc`);
+            const response = await axios.get<CSIArticleListProps>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&&pagination[pageSize]=3`);
+            const responseSort = await axios.get<CSIArticleListProps>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&pagination[pageSize]=3&sort[0]=read%3Adesc`);
             if (cancel) return;
 
             setArticles(response.data.data);

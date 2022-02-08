@@ -21,8 +21,8 @@ const CSCardArticle: React.FC<CardArticleProps> = (props) => {
             className='container-article-ads'
             sx={{
                 flexDirection: { xs: 'column', md: 'row' },
-                // mx: '2rem'
             }}
+            title='card-article'
         >
             <div className='card-article'>
                 <div

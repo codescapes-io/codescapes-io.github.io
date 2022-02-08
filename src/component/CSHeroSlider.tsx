@@ -7,7 +7,7 @@ import DateFormater from '../func/DateFormater'
 
 const CSHeroSlider: React.FC<CardArticleProps> = (props) => {
     return (
-        <div className={`content-wrap-blog ${props.class}`}>
+        <div className={`content-wrap-blog ${props.class}`} title='hero-slider'>
             <Typography
                 variant='body1'
                 className='bold-yellow'

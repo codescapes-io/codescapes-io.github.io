@@ -8,7 +8,7 @@ import DateFormater from '../func/DateFormater'
 
 const CSCardArtcilePopular: React.FC<CardArticleProps> = (props) => {
     return (
-        <Box className='card-article-popular' sx={{ mx: '2rem', mb: '2rem' }}>
+        <Box className='card-article-popular' title='card-popular'>
             <Typography
                 variant='body1'
                 className='bold-yellow'

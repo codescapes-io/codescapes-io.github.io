@@ -9,14 +9,14 @@ import CSHeroSliderSkeleton from '../../component/skeleton/CSHeroSliderSkeleton'
 import CSCardPopularSkeleton from '../../component/skeleton/CSCardPopularSkeleton';
 import CSCardArticleSkeleton from '../../component/skeleton/CSCardArticleSkeleton';
 
-export interface CSICategoriesProps {
+export interface CSICategories {
     id: number
     attributes: {
         name: string
     }
 }
 
-export interface CSIUsersProps {
+export interface CSIUsers {
     id: number
     attributes: {
         username: string
@@ -25,7 +25,7 @@ export interface CSIUsersProps {
     }
 }
 
-export interface CSIArticleProps {
+export interface CSIArticle {
     id: number
     attributes: {
         title: string
@@ -35,25 +35,25 @@ export interface CSIArticleProps {
         publishedAt: string
         read: string
         categories: {
-            data: CSICategoriesProps[]
+            data: CSICategories[]
         }
         users_permissions_user: {
-            data: CSIUsersProps
+            data: CSIUsers
         }
     }
 }
 
-export interface CSIArticleListProps {
-    data: CSIArticleProps[]
+export interface CSIArticleListResponse {
+    data: CSIArticle[]
 }
 
-export interface CSIEachArticleProps {
-    data: CSIArticleProps
+export interface CSIEachArticleResponse {
+    data: CSIArticle
 }
 
 const CSBlogPage: React.FC = () => {
-    const [articles, setArticles] = useState<CSIArticleListProps['data']>([]);
-    const [popularArticle, setPopularArticle] = useState<CSIArticleListProps['data']>([]);
+    const [articles, setArticles] = useState<CSIArticle[]>([]);
+    const [popularArticle, setPopularArticle] = useState<CSIArticle[]>([]);
     const [dotActive, setDotActive] = useState<number>(0);
     const [heroImgUrl, setHeroImgUrl] = useState<string>();
     const [isLoading, setLoading] = useState(true)
@@ -61,9 +61,9 @@ const CSBlogPage: React.FC = () => {
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const response = await axios.get<CSIArticleListProps>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&&pagination[pageSize]=3`);
-            const responseSort = await axios.get<CSIArticleListProps>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&pagination[pageSize]=3&sort[0]=read%3Adesc`);
-            if (cancel) return;
+            const response = await axios.get<CSIArticleListResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&&pagination[pageSize]=3`);
+            const responseSort = await axios.get<CSIArticleListResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&pagination[pageSize]=3&sort[0]=read%3Adesc`);
+            if (cancel || !response || !responseSort) return;
 
             setArticles(response.data.data);
             setPopularArticle(responseSort.data.data)

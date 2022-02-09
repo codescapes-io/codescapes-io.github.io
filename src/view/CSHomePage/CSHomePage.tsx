@@ -3,7 +3,7 @@ import axios from 'axios';
 import CSIFeature from '../../assets/image/CSIFeature';
 import CSEmailSubscribe from '../../component/CSEmailSubscribe';
 
-export interface CSITechsProps {
+export interface CSITechs {
     id: number
     attributes: {
         name: string
@@ -38,7 +38,7 @@ export interface CSITechsProps {
     }
 }
 
-export interface CSIHomeProps {
+export interface CSIHome {
     data: {
         id: number
         attributes: {
@@ -47,20 +47,20 @@ export interface CSIHomeProps {
             updateAt: string
             publishedAt: string
             techs: {
-                data: CSITechsProps[]
+                data: CSITechs[]
             }
         }
     }
 }
 
 const Home: React.FC = () => {
-    const [content, setContent] = useState<CSIHomeProps['data']>()
+    const [content, setContent] = useState<CSIHome['data']>()
 
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const response = await axios.get<CSIHomeProps>(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
-            if (cancel) return;
+            const response = await axios.get<CSIHome>(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
+            if (cancel || !response) return;
             setContent(response.data.data);
         }
         fetchData()

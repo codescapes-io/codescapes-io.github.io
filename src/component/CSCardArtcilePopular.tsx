@@ -2,11 +2,11 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
-import { CSICardArticleProps } from './CSCardArticle';
+import { CSICardArticle } from './CSCardArticle';
 import DateFormater from '../func/DateFormater'
 
 
-const CSCardArtcilePopular: React.FC<CSICardArticleProps> = (props) => {
+const CSCardArtcilePopular: React.FC<CSICardArticle> = (props) => {
     return (
         <Box className='card-article-popular' title='card-popular'>
             <Typography

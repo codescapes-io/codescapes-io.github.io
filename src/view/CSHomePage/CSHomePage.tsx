@@ -39,27 +39,29 @@ export interface CSITechs {
 }
 
 export interface CSIHome {
-    data: {
-        id: number
-        attributes: {
-            title: string
-            createdAt: string
-            updateAt: string
-            publishedAt: string
-            techs: {
-                data: CSITechs[]
-            }
+    id: number
+    attributes: {
+        title: string
+        createdAt: string
+        updateAt: string
+        publishedAt: string
+        techs: {
+            data: CSITechs[]
         }
     }
 }
 
+export interface CSIHomeResponse {
+    data: CSIHome
+}
+
 const Home: React.FC = () => {
-    const [content, setContent] = useState<CSIHome['data']>()
+    const [content, setContent] = useState<CSIHome>()
 
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const response = await axios.get<CSIHome>(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
+            const response = await axios.get<CSIHomeResponse>(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
             if (cancel || !response) return;
             setContent(response.data.data);
         }

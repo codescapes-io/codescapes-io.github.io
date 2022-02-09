@@ -17,11 +17,11 @@ const CSCardArtcilePopular: React.FC<CSICardArticleProps> = (props) => {
                     fontWeight: '600'
                 }}
             >
-                {props.sCategory}
+                {props.strCategory}
             </Typography>
             <Link to={`/blog/${props.nId}`}>
                 <Typography variant='h1' sx={{ fontSize: '2.25rem' }}>
-                    {props.sTitle}
+                    {props.strTitle}
                 </Typography>
             </Link>
             <div className="card-button">
@@ -29,7 +29,7 @@ const CSCardArtcilePopular: React.FC<CSICardArticleProps> = (props) => {
             </div>
             <div className="article-writer light">
                 <CSWriterAvatar />
-                <p><strong>{props.sWriter}</strong> {DateFormater(props.sCreatedAt)}</p>
+                <p><strong>{props.strWriter}</strong> {DateFormater(props.strCreatedAt)}</p>
             </div>
         </Box>
     );

@@ -116,12 +116,12 @@ const CSBlogPage: React.FC = () => {
                                     <CSHeroSlider
                                         key={index}
                                         nId={el.id}
-                                        sClass={index === dotActive ? 'active-blog' : ''}
-                                        sTitle={el.attributes.title}
-                                        sCategory={el.attributes.categories.data[0].attributes.name}
-                                        sCreatedAt={el.attributes.createdAt}
-                                        sWriter={el.attributes.users_permissions_user.data.attributes.name}
-                                        sContent={el.attributes.content}
+                                        strClass={index === dotActive ? 'active-blog' : ''}
+                                        strTitle={el.attributes.title}
+                                        strCategory={el.attributes.categories.data[0].attributes.name}
+                                        strCreatedAt={el.attributes.createdAt}
+                                        strWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                        strContent={el.attributes.content}
                                     />
                                 )
                             })
@@ -164,10 +164,10 @@ const CSBlogPage: React.FC = () => {
                                     <CSCardArticlePopular
                                         key={index}
                                         nId={el.id}
-                                        sTitle={el.attributes.title}
-                                        sCategory={el.attributes.categories.data[0].attributes.name}
-                                        sCreatedAt={el.attributes.createdAt}
-                                        sWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                        strTitle={el.attributes.title}
+                                        strCategory={el.attributes.categories.data[0].attributes.name}
+                                        strCreatedAt={el.attributes.createdAt}
+                                        strWriter={el.attributes.users_permissions_user.data.attributes.name}
                                     />)
                             })
                     }
@@ -186,11 +186,11 @@ const CSBlogPage: React.FC = () => {
                                 <CSCardArticle
                                     key={index}
                                     nId={el.id}
-                                    sTitle={el.attributes.title}
-                                    sContent={el.attributes.content}
-                                    sCategory={el.attributes.categories.data[0].attributes.name}
-                                    sCreatedAt={el.attributes.createdAt}
-                                    sWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                    strTitle={el.attributes.title}
+                                    strContent={el.attributes.content}
+                                    strCategory={el.attributes.categories.data[0].attributes.name}
+                                    strCreatedAt={el.attributes.createdAt}
+                                    strWriter={el.attributes.users_permissions_user.data.attributes.name}
                                 />)
                         })
                 }

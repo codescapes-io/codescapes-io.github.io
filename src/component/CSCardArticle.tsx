@@ -7,12 +7,12 @@ import DateFormater from '../func/DateFormater'
 
 export interface CSICardArticleProps {
     nId?: number
-    sClass?: string
-    sTitle: string
-    sContent?: string
-    sCategory: string
-    sCreatedAt: string
-    sWriter: string
+    strClass?: string
+    strTitle: string
+    strContent?: string
+    strCategory: string
+    strCreatedAt: string
+    strWriter: string
 }
 
 const CSCardArticle: React.FC<CSICardArticleProps> = (props) => {
@@ -47,20 +47,20 @@ const CSCardArticle: React.FC<CSICardArticleProps> = (props) => {
                             fontWeight: '600'
                         }}
                     >
-                        {props.sCategory}
+                        {props.strCategory}
                     </Typography>
                     <Link to={`/blog/${props.nId}`}>
                         <Typography variant='h1' sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
-                            {props.sTitle}
+                            {props.strTitle}
                         </Typography>
                     </Link>
 
                     <Typography variant='body1' sx={{ fontSize: { xs: '12px', md: '16px' } }}>
-                        {props.sContent}
+                        {props.strContent}
                     </Typography>
                     <div className="article-writer">
                         <CSWriterAvatar />
-                        <p><strong>{props.sWriter}</strong> on {DateFormater(props.sCreatedAt)}</p>
+                        <p><strong>{props.strWriter}</strong> on {DateFormater(props.strCreatedAt)}</p>
                     </div>
                 </Box>
             </div>

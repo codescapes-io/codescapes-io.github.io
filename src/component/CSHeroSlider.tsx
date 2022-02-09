@@ -7,7 +7,7 @@ import DateFormater from '../func/DateFormater'
 
 const CSHeroSlider: React.FC<CSICardArticleProps> = (props) => {
     return (
-        <div className={`content-wrap-blog ${props.sClass}`} title='hero-slider'>
+        <div className={`content-wrap-blog ${props.strClass}`} title='hero-slider'>
             <Typography
                 variant='body1'
                 className='bold-yellow'
@@ -16,19 +16,19 @@ const CSHeroSlider: React.FC<CSICardArticleProps> = (props) => {
                     fontWeight: '600'
                 }}
             >
-                {props.sCategory}
+                {props.strCategory}
             </Typography>
             <Link to={`/blog/${props.nId}`}>
                 <Typography variant='h1' sx={{ fontSize: { xs: '2.25rem', md: '3rem' } }}>
-                    {props.sTitle}
+                    {props.strTitle}
                 </Typography>
             </Link>
             <Typography variant='body1' sx={{ fontSize: { xs: '12px', md: '16px' } }}>
-                {props.sContent}
+                {props.strContent}
             </Typography>
             <div className="article-writer">
                 <CSWriterAvatar />
-                <p><strong>{props.sWriter}</strong> on {DateFormater(props.sCreatedAt)}</p>
+                <p><strong>{props.strWriter}</strong> on {DateFormater(props.strCreatedAt)}</p>
             </div>
         </div>
     );

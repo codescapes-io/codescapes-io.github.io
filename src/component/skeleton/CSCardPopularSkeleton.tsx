@@ -2,7 +2,7 @@ import { Box, Skeleton, Typography } from '@mui/material';
 import React from 'react';
 
 const CSCardPopularSkeleton = () => {
-    return <Box className='card-article-popular' title='skeleton-card-popular' sx={{ flexBasis: '30%', width: { xs: '100%' } }}>
+    return <Box className='card-article-popular' title='skeleton-card-popular' sx={{ flexBasis: { xs: 'unset', md: '30%' }, width: '-webkit-fill-available' }}>
         <Typography variant='body1' width='100%' ><Skeleton width='30%' /></Typography>
         <Typography variant='h1' width='100%' style={{ margin: '0' }}><Skeleton width='90%' height={60} /></Typography>
         <Typography variant='h1' width='100%' style={{ margin: '0' }}><Skeleton width='40%' height={60} /></Typography>

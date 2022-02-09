@@ -5,17 +5,17 @@ import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
 import DateFormater from '../func/DateFormater'
 
 
-export interface CSICardArticle {
-    id?: number
-    class?: string
-    title: string
-    content?: string
-    category: string
-    createdAt: string
-    writer: string
+export interface CSICardArticleProps {
+    nId?: number
+    sClass?: string
+    sTitle: string
+    sContent?: string
+    sCategory: string
+    sCreatedAt: string
+    sWriter: string
 }
 
-const CSCardArticle: React.FC<CSICardArticle> = (props) => {
+const CSCardArticle: React.FC<CSICardArticleProps> = (props) => {
     return (
         <Box
             className='container-article-ads'
@@ -47,20 +47,20 @@ const CSCardArticle: React.FC<CSICardArticle> = (props) => {
                             fontWeight: '600'
                         }}
                     >
-                        {props.category}
+                        {props.sCategory}
                     </Typography>
-                    <Link to={`/blog/${props.id}`}>
+                    <Link to={`/blog/${props.nId}`}>
                         <Typography variant='h1' sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
-                            {props.title}
+                            {props.sTitle}
                         </Typography>
                     </Link>
 
                     <Typography variant='body1' sx={{ fontSize: { xs: '12px', md: '16px' } }}>
-                        {props.content}
+                        {props.sContent}
                     </Typography>
                     <div className="article-writer">
                         <CSWriterAvatar />
-                        <p><strong>{props.writer}</strong> on {DateFormater(props.createdAt)}</p>
+                        <p><strong>{props.sWriter}</strong> on {DateFormater(props.sCreatedAt)}</p>
                     </div>
                 </Box>
             </div>

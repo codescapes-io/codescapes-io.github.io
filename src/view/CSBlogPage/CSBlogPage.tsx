@@ -107,19 +107,21 @@ const CSBlogPage: React.FC = () => {
                 }
                 <div className="container-slider" title='container-slider'>
                     {
+
+
                         isLoading
                             ? <CSHeroSliderSkeleton />
                             : popularArticle.map((el, index) => {
                                 return (
                                     <CSHeroSlider
                                         key={index}
-                                        id={el.id}
-                                        class={index === dotActive ? 'active-blog' : ''}
-                                        title={el.attributes.title}
-                                        category={el.attributes.categories.data[0].attributes.name}
-                                        createdAt={el.attributes.createdAt}
-                                        writer={el.attributes.users_permissions_user.data.attributes.name}
-                                        content={el.attributes.content}
+                                        nId={el.id}
+                                        sClass={index === dotActive ? 'active-blog' : ''}
+                                        sTitle={el.attributes.title}
+                                        sCategory={el.attributes.categories.data[0].attributes.name}
+                                        sCreatedAt={el.attributes.createdAt}
+                                        sWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                        sContent={el.attributes.content}
                                     />
                                 )
                             })
@@ -161,13 +163,12 @@ const CSBlogPage: React.FC = () => {
                                 return (
                                     <CSCardArticlePopular
                                         key={index}
-                                        id={el.id}
-                                        title={el.attributes.title}
-                                        category={el.attributes.categories.data[0].attributes.name}
-                                        createdAt={el.attributes.createdAt}
-                                        writer={el.attributes.users_permissions_user.data.attributes.name}
-                                    />
-                                )
+                                        nId={el.id}
+                                        sTitle={el.attributes.title}
+                                        sCategory={el.attributes.categories.data[0].attributes.name}
+                                        sCreatedAt={el.attributes.createdAt}
+                                        sWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                    />)
                             })
                     }
                 </Box>
@@ -184,14 +185,13 @@ const CSBlogPage: React.FC = () => {
                             return (
                                 <CSCardArticle
                                     key={index}
-                                    id={el.id}
-                                    title={el.attributes.title}
-                                    content={el.attributes.content}
-                                    category={el.attributes.categories.data[0].attributes.name}
-                                    createdAt={el.attributes.createdAt}
-                                    writer={el.attributes.users_permissions_user.data.attributes.name}
-                                />
-                            )
+                                    nId={el.id}
+                                    sTitle={el.attributes.title}
+                                    sContent={el.attributes.content}
+                                    sCategory={el.attributes.categories.data[0].attributes.name}
+                                    sCreatedAt={el.attributes.createdAt}
+                                    sWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                />)
                         })
                 }
             </Box>

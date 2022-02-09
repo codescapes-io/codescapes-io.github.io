@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import CSHomePage from '../CSHomePage';
 import axios from 'axios';
 
@@ -11,7 +11,7 @@ const fakeData = {
         data: {
             id: 1,
             attributes: {
-                title: 'Low-code your Program',
+                title: 'abcd',
                 techs: {
                     data: [
                         {
@@ -41,8 +41,8 @@ const fakeData = {
                     ]
                 }
             }
-        }
-    }
+        },
+    },
 }
 
 describe('unit test HomePage', () => {
@@ -58,10 +58,9 @@ describe('unit test HomePage', () => {
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
 
             render(<CSHomePage />);
-            const headerHome = await screen.findByText(`${fakeData.data.data.attributes.title}`)
-            expect(headerHome).toBeInTheDocument();
+            const headerHome = screen.getByTitle('header-content')
+            await waitFor(() => expect(headerHome).toHaveTextContent(fakeData.data.data.attributes.title))
         })
-
 
         it('render techs logo', async () => {
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
@@ -71,6 +70,4 @@ describe('unit test HomePage', () => {
 
         })
     })
-
-
 })

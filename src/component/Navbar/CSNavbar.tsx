@@ -12,7 +12,7 @@ import CSMenuIcons from '../../assets/icons/CSMenuIcons';
 import CSCloseIcons from '../../assets/icons/CSCloseIcons';
 import { Drawer, List, ListItem, ListItemIcon } from '@mui/material';
 import { Box } from '@mui/system';
-import CSArticle from '../../view/CSArticle';
+import CSArticle from '../../view/CSArticle/CSArticle';
 
 const Navbar: React.FC = () => {
     const [bDrawerOpen, setDrawerOpen] = useState(false);

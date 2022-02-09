@@ -2,22 +2,22 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
-import DateFormater from '../func/DateFormater';
-import CSEmailSubscribe from '../component/CSEmailSubscribe';
-import CSCommentSection from '../component/CSCommentSection';
-import { CSIEachArticleProps } from './CSBlogPage/CSBlogPage';
+import CSWriterAvatar from '../../assets/icons/CSWriterAvatar';
+import DateFormater from '../../func/DateFormater';
+import CSEmailSubscribe from '../../component/CSEmailSubscribe';
+import CSCommentSection from '../../component/CSCommentSection';
+import { CSIArticle, CSIEachArticleResponse } from '../CSBlogPage/CSBlogPage';
 
 const CSArticle: React.FC = () => {
-    const [article, setArticle] = useState<CSIEachArticleProps['data']>();
+    const [article, setArticle] = useState<CSIArticle>();
     const { id } = useParams();
     const [contentArticle, setContentArticle] = useState(['']);
 
     useEffect(() => {
         let cancel = false
         const fetchData = async () => {
-            const response = await axios.get<CSIEachArticleProps>(`${process.env.REACT_APP_BASE_URL}/api/articles/${id}?populate=categories,users_permissions_user`)
-            if (cancel) return;
+            const response = await axios.get<CSIEachArticleResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles/${id}?populate=categories,users_permissions_user`)
+            if (cancel || !response) return;
             setArticle(response.data.data)
             setContentArticle(response.data.data.attributes.content.split('\n').filter((item: string) => item.length));
 
@@ -42,7 +42,7 @@ const CSArticle: React.FC = () => {
             >
 
             </Box>
-            <Container maxWidth='lg' className='container-article' sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
+            <Container maxWidth='lg' title='article' className='container-article' sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
                 <Box
                     className='header-article'
                     sx={{
@@ -54,6 +54,7 @@ const CSArticle: React.FC = () => {
                 >
                     <Typography
                         variant='h1'
+                        title='article-title'
                         sx={{
                             mb: { xs: '8px', md: '24px' },
                             fontSize: { xs: '35px', md: '60px' },
@@ -87,7 +88,7 @@ const CSArticle: React.FC = () => {
                     </Box>
                 </Box>
                 <Box className="body-article" sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-                    <Box sx={{ flexBasis: '70%' }}>
+                    <Box sx={{ flexBasis: '70%' }} title='article-body'>
                         {
                             contentArticle.map(
                                 (el, index) => {
@@ -105,6 +106,7 @@ const CSArticle: React.FC = () => {
                                             <img
                                                 src={`${process.env.REACT_APP_BASE_URL + src}`}
                                                 alt={alt}
+                                                title='article-img'
                                                 key={index}
                                                 className='image-content-article'
                                             />

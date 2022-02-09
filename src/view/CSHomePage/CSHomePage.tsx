@@ -1,62 +1,68 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import CSIFeature from '../assets/image/CSIFeature';
-import CSEmailSubscribe from '../component/CSEmailSubscribe';
+import CSIFeature from '../../assets/image/CSIFeature';
+import CSEmailSubscribe from '../../component/CSEmailSubscribe';
 
-export interface HomeProps {
+export interface CSITechs {
+    id: number
+    attributes: {
+        name: string
+        alternativeText: string
+        caption: string
+        width: number
+        height: number
+        url: string
+        formats: {
+            thumbnail: {
+                name: string
+                width: number
+                height: number
+                size: number
+                url: string
+            },
+            medium: {
+                name: string
+                width: number
+                height: number
+                size: number
+                url: string
+            },
+            small: {
+                name: string
+                width: number
+                height: number
+                size: number
+                url: string
+            }
+        }
+    }
+}
+
+export interface CSIHome {
+    id: number
     attributes: {
         title: string
         createdAt: string
         updateAt: string
         publishedAt: string
         techs: {
-            data: {
-                id: number
-                attributes: {
-                    name: string
-                    alternativeText: string
-                    caption: string
-                    width: number
-                    height: number
-                    url: string
-                    formats: {
-                        thumbnail: {
-                            name: string
-                            width: number
-                            height: number
-                            size: number
-                            url: string
-                        },
-                        medium: {
-                            name: string
-                            width: number
-                            height: number
-                            size: number
-                            url: string
-                        },
-                        small: {
-                            name: string
-                            width: number
-                            height: number
-                            size: number
-                            url: string
-                        }
-                    }
-                }
-            }[]
+            data: CSITechs[]
         }
     }
-    id: number
+}
+
+export interface CSIHomeResponse {
+    data: CSIHome
 }
 
 const Home: React.FC = () => {
-    const [content, setContent] = useState<HomeProps>()
+    const [content, setContent] = useState<CSIHome>()
 
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
-            if (cancel) return;
+            const response = await axios.get<CSIHomeResponse>(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
+            if (cancel || !response) return;
             setContent(response.data.data);
         }
         fetchData()
@@ -66,9 +72,9 @@ const Home: React.FC = () => {
     }, [])
 
     return (
-        <section id='home'>
+        <section id='home' title='home'>
             <div className="container-hero">
-                <h1>{content?.attributes.title}</h1>
+                <h1 title='header-content'>{content?.attributes.title}</h1>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                 <button>Get Started Free</button>
             </div>
@@ -103,7 +109,7 @@ const Home: React.FC = () => {
             <div className="tech-compatible">
                 {content?.attributes.techs.data.map(el => {
                     return (
-                        <img key={el.id} src={`${process.env.REACT_APP_BASE_URL}${el.attributes.url}`} alt="" />
+                        <img title='techs' key={el.id} src={`${process.env.REACT_APP_BASE_URL}${el.attributes.url}`} alt="" />
                     )
                 })}
             </div>

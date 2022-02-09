@@ -1,10 +1,15 @@
-import { Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import React from 'react';
 
 const CSCardArticleSkeleton = () => {
-    return <div className='container-article-ads'>
+    return <Box className='container-article-ads' title='skeleton-article-card' sx={{ flexDirection: { xs: 'column', md: 'row' }, }}>
         <div className="card-article">
-            <div className="content-wrap-card">
+            <Box className="content-wrap-card" sx={{
+                px: '0.875rem',
+                pb: '0.875rem',
+                pt: { xs: '4rem', md: '1.5rem' },
+                width: { xs: '90%', sm: '50%' }
+            }}>
                 <Typography variant='caption' width='40%'><Skeleton /></Typography>
                 <Typography variant='h3' width='100%'><Skeleton width='50%' /></Typography>
                 <Typography variant='h3' width='100%'><Skeleton width='100%' /></Typography>
@@ -15,12 +20,12 @@ const CSCardArticleSkeleton = () => {
                     <Skeleton variant='circular' width={36} height={36} style={{ marginRight: '16px' }} />
                     <Typography variant='caption' width='40%'><Skeleton /></Typography>
                 </div>
-            </div>
+            </Box>
         </div>
         <div className="card-ads" style={{ width: '10%' }}>
             <Typography variant='caption' width='40%'><Skeleton /></Typography>
         </div>
-    </div>;
+    </Box>;
 };
 
 export default CSCardArticleSkeleton;

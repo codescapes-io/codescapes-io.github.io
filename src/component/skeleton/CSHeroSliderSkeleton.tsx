@@ -3,7 +3,7 @@ import { Skeleton, Typography } from '@mui/material';
 
 
 const CSHeroSliderSkeleton = () => {
-    return <div className='content-wrap-skeleton'>
+    return <div className='content-wrap-skeleton' title='skeleton-hero-slider'>
         <Typography variant='caption' width='40%'><Skeleton /></Typography>
         <Typography variant='h3'><Skeleton width='100%' /></Typography>
         <Typography variant='h3' style={{ marginBottom: '16px' }}><Skeleton width='50%' /></Typography>

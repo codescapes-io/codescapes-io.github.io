@@ -2,12 +2,12 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CSWriterAvatar from '../assets/icons/CSWriterAvatar';
-import { CardArticleProps } from './CSCardArticle';
+import { CSICardArticleProps } from './CSCardArticle';
 import DateFormater from '../func/DateFormater'
 
-const CSHeroSlider: React.FC<CardArticleProps> = (props) => {
+const CSHeroSlider: React.FC<CSICardArticleProps> = (props) => {
     return (
-        <div className={`content-wrap-blog ${props.class}`}>
+        <div className={`content-wrap-blog ${props.strClass}`} title='hero-slider'>
             <Typography
                 variant='body1'
                 className='bold-yellow'
@@ -16,19 +16,19 @@ const CSHeroSlider: React.FC<CardArticleProps> = (props) => {
                     fontWeight: '600'
                 }}
             >
-                {props.category}
+                {props.strCategory}
             </Typography>
-            <Link to={`/blog/${props.id}`}>
+            <Link to={`/blog/${props.nId}`}>
                 <Typography variant='h1' sx={{ fontSize: { xs: '2.25rem', md: '3rem' } }}>
-                    {props.title}
+                    {props.strTitle}
                 </Typography>
             </Link>
             <Typography variant='body1' sx={{ fontSize: { xs: '12px', md: '16px' } }}>
-                {props.content}
+                {props.strContent}
             </Typography>
             <div className="article-writer">
                 <CSWriterAvatar />
-                <p><strong>{props.writer}</strong> on {DateFormater(props.createdAt)}</p>
+                <p><strong>{props.strWriter}</strong> on {DateFormater(props.strCreatedAt)}</p>
             </div>
         </div>
     );

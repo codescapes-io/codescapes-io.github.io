@@ -1,0 +1,32 @@
+.article-img {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    background-position: center;
+    background-size: cover;
+}
+
+.body-article, .header-article{
+    z-index: 1;
+}
+
+.text-article {
+    -webkit-line-clamp: unset;  
+    text-indent: 1.5em;
+    line-height: 31px;
+}
+
+.image-content-article {
+    max-width: 70%;
+    margin-bottom: 16px;
+}
+
+.article-img::after{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background: linear-gradient(360deg, #FFFFFF 75.31%, rgba(196, 196, 196, 0) 100%);
+
+}

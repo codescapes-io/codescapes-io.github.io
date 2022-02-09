@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Routes,
     Route,
     NavLink
 } from "react-router-dom";
-import Docs from '../view/Docs';
-import HomePage from '../view/CSHomePage'
-import CSBlogPage from '../view/CSBlogPage';
-import CSMenuIcons from '../assets/icons/CSMenuIcons';
-import CSCloseIcons from '../assets/icons/CSCloseIcons';
+import Docs from '../../view/Docs';
+import HomePage from '../../view/CSHomePage/CSHomePage'
+import CSBlogPage from '../../view/CSBlogPage/CSBlogPage';
+import CSMenuIcons from '../../assets/icons/CSMenuIcons';
+import CSCloseIcons from '../../assets/icons/CSCloseIcons';
 import { Drawer, List, ListItem, ListItemIcon } from '@mui/material';
 import { Box } from '@mui/system';
+import CSArticle from '../../view/CSArticle/CSArticle';
 
 const Navbar: React.FC = () => {
     const [bDrawerOpen, setDrawerOpen] = useState(false);
@@ -21,7 +22,7 @@ const Navbar: React.FC = () => {
 
     return (
         <Router>
-            <nav >
+            <nav title='navbar'>
                 <div className='logo'>
                     <img src="/logo-bve-light.png" alt="logo-bve" />
                 </div>
@@ -32,15 +33,17 @@ const Navbar: React.FC = () => {
                     <li><NavLink to="/blog">BLOG</NavLink></li>
                 </ul>
                 <Box
+                    title='menu-icon'
                     sx={{ display: { md: 'none' }, m: '32px' }}
                     onClick={handleClick}>
                     <CSMenuIcons />
                 </Box>
             </nav>
             <Drawer
+                title='side-drawer'
                 anchor='right'
                 open={bDrawerOpen}
-                onClick={handleClose}
+                onClose={handleClose}
             >
                 <Box sx={{ width: 200, height: '100%', backgroundColor: '#4B4B4B' }}>
                     <List>
@@ -52,11 +55,12 @@ const Navbar: React.FC = () => {
                                 alignItems: 'center'
                             }}
                         >
-                            <ListItemIcon sx={{ minWidth: 'fit-content' }}>
+                            <ListItemIcon sx={{ minWidth: 'fit-content' }} title='close-icon' onClick={handleClose}>
                                 <CSCloseIcons />
                             </ListItemIcon>
                         </ListItem>
                         <ListItem
+                            button
                             sx={{
                                 padding: 0,
                                 marginBottom: '12px',
@@ -67,9 +71,10 @@ const Navbar: React.FC = () => {
                                 alignItems: 'center'
                             }}
                         >
-                            <NavLink onClick={handleClose} to="/">HOME</NavLink>
+                            <NavLink className='sidebar-anchor' onClick={handleClose} to="/">HOME</NavLink>
                         </ListItem>
                         <ListItem
+                            button
                             sx={{
                                 padding: 0,
                                 marginBottom: '12px',
@@ -80,9 +85,10 @@ const Navbar: React.FC = () => {
                                 alignItems: 'center'
                             }}
                         >
-                            <NavLink onClick={handleClose} to="/docs">DOCS</NavLink>
+                            <NavLink className='sidebar-anchor' onClick={handleClose} to="/docs">DOCS</NavLink>
                         </ListItem>
                         <ListItem
+                            button
                             sx={{
                                 padding: 0,
                                 marginBottom: '12px',
@@ -93,9 +99,10 @@ const Navbar: React.FC = () => {
                                 alignItems: 'center'
                             }}
                         >
-                            <NavLink onClick={handleClose} to="/pricing">PRICING</NavLink>
+                            <NavLink className='sidebar-anchor' onClick={handleClose} to="/pricing">PRICING</NavLink>
                         </ListItem>
                         <ListItem
+                            button
                             sx={{
                                 padding: 0,
                                 marginBottom: '12px',
@@ -106,7 +113,7 @@ const Navbar: React.FC = () => {
                                 alignItems: 'center'
                             }}
                         >
-                            <NavLink onClick={handleClose} to="/blog">BLOG</NavLink>
+                            <NavLink className='sidebar-anchor' onClick={handleClose} to="/blog">BLOG</NavLink>
                         </ListItem>
                     </List>
                 </Box>
@@ -115,8 +122,10 @@ const Navbar: React.FC = () => {
                 <Route path='/' element={<HomePage />} />
                 <Route path='/docs' element={<Docs />} />
                 <Route path='/blog' element={<CSBlogPage />} />
+                <Route path='/blog/:id' element={<CSArticle />} />
             </Routes>
         </Router>
+
     )
 }
 

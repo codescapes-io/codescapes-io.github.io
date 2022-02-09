@@ -1,15 +1,14 @@
 import React from 'react';
 import './App.css';
-import CSNavbar from './component/CSNavbar';
+import CSNavbar from './component/Navbar/CSNavbar';
 import CSFooter from './component/CSFooter';
-import { Box } from '@mui/system';
 
 function App() {
   return (
-    <Box className="App" sx={{ fontFamily: 'Montserrat' }}>
+    <div className="App" title='App'>
       <CSNavbar />
       <CSFooter />
-    </Box>
+    </div>
   );
 }
 

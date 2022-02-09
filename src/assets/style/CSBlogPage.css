@@ -114,7 +114,6 @@
 }
 
 .content-wrap-card h1 {
-    font-size: 34px;
     color: black;
 }
 
@@ -180,6 +179,8 @@
     align-items: flex-start;
     box-shadow: 0px 4px 12px 9px rgba(247, 185, 59, 0.25);
     border-radius: 17px;    
+    margin: 0 2rem;
+    margin-bottom: 2rem;
     height: 400px;
     max-width: 365px;
 }
@@ -227,7 +228,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
     margin: 60px 0;
 }
 

@@ -104,7 +104,6 @@ describe('unit test BlogPage', () => {
         it('render hero img', async () => {
             // mock axios
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
-            // render
             render(mockBlogPage());
             const heroImg = await screen.findByTitle('hero-img')
             expect(heroImg).toHaveAttribute('style', 'background-image: url(https://api.codescapes.io/uploads/article_img_77492e10a8.png);');
@@ -115,7 +114,6 @@ describe('unit test BlogPage', () => {
         it('render hero slider components', async () => {
             // mock axios
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
-            // render
             render(mockBlogPage());
 
             const slider = await screen.findAllByTitle('hero-slider')
@@ -127,8 +125,7 @@ describe('unit test BlogPage', () => {
 
     it('click dot to slide hero', async () => {
         // mock axios
-        mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
-        // render
+        mockAxios.get.mockImplementation(() => Promise.resolve(fakeData))
         render(mockBlogPage());
 
         const slider = await screen.findAllByTitle('hero-slider')

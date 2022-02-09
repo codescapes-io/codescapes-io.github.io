@@ -4,7 +4,6 @@ import CSNavbar from '../CSNavbar';
 
 describe('unit test Navbar', () => {
     it('render navbar without crashing', () => {
-        // render
         render(<CSNavbar />)
 
         const navbar = screen.getByTitle('navbar');
@@ -14,7 +13,6 @@ describe('unit test Navbar', () => {
     })
 
     it('open sidebar whem click menu icon', async () => {
-        // render
         render(<CSNavbar />)
 
         const menuIcon = screen.getByTitle('menu-icon');

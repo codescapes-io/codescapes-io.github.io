@@ -67,7 +67,6 @@ describe('Unit test article page', () => {
     })
 
     it('calls article data from strapi', async () => {
-        // mock axios
         mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
         render(mockArticlePage())
 

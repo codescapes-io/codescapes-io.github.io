@@ -102,7 +102,6 @@ describe('unit test BlogPage', () => {
 
     describe('calls API', () => {
         it('render hero img', async () => {
-            // mock axios
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
             render(mockBlogPage());
             const heroImg = await screen.findByTitle('hero-img')
@@ -112,7 +111,6 @@ describe('unit test BlogPage', () => {
         })
 
         it('render hero slider components', async () => {
-            // mock axios
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
             render(mockBlogPage());
 
@@ -124,7 +122,6 @@ describe('unit test BlogPage', () => {
     })
 
     it('click dot to slide hero', async () => {
-        // mock axios
         mockAxios.get.mockImplementation(() => Promise.resolve(fakeData))
         render(mockBlogPage());
 

@@ -3,6 +3,7 @@
 @import 'assets/style/CSHomePage.css';
 @import 'assets/style/CSBlogPage.css';
 @import 'assets/style/CSArticlePage.css';
+@import 'assets/style/CSDocsPage.css';
 
 body { 
   margin: 0;

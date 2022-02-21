@@ -1,14 +1,16 @@
 import React from 'react';
 import './App.css';
-import CSNavbar from './component/Navbar/CSNavbar';
-import CSFooter from './component/CSFooter';
+import CSLayout from './component/Layout/CSLayout';
+import { HashRouter as Router } from 'react-router-dom';
+
 
 function App() {
   return (
-    <div className="App" title='App'>
-      <CSNavbar />
-      <CSFooter />
-    </div>
+    <Router>
+      <div className="App" title='App'>
+        <CSLayout />
+      </div>
+    </Router>
   );
 }
 

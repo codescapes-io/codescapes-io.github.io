@@ -120,7 +120,7 @@ a.learn-more {
   max-width: 691px;
 }
 
-.subs-body h1, p {
+.subs-body h1, .subs-body p {
   margin: 0;
   margin-bottom: 16px;
   overflow: hidden;

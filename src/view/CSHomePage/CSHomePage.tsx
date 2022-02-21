@@ -72,7 +72,7 @@ const Home: React.FC = () => {
     }, [])
 
     return (
-        <section id='home' title='home'>
+        <section id='home' title='home' className='mt-nav'>
             <div className="container-hero">
                 <h1 title='header-content'>{content?.attributes.title}</h1>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>

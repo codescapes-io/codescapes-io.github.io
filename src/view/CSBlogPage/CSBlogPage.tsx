@@ -87,7 +87,7 @@ const CSBlogPage: React.FC = () => {
     }
 
     return (
-        <section title='blog'>
+        <section title='blog' className='mt-nav'>
             <div className="container-hero-blog">
                 {
                     isLoading

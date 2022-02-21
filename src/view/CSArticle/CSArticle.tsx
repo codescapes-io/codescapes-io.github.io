@@ -33,7 +33,7 @@ const CSArticle: React.FC = () => {
     return (
         <>
             <Box
-                className='article-img'
+                className='article-img mt-nav'
                 sx={{
                     backgroundImage: `url('${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png')`,
                     height: { xs: '10%', sm: '20%', md: '35%' },
@@ -42,7 +42,7 @@ const CSArticle: React.FC = () => {
             >
 
             </Box>
-            <Container maxWidth='lg' title='article' className='container-article' sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
+            <Container maxWidth='lg' title='article' className='container-article mt-nav' sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
                 <Box
                     className='header-article'
                     sx={{

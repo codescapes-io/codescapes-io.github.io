@@ -53,5 +53,10 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/!node_modules\\/react-markdown/"
+    ]
   }
 }

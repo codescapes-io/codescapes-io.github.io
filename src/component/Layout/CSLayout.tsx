@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Routes,
     Route,
@@ -16,9 +16,23 @@ import CSArticle from '../../view/CSArticle/CSArticle';
 import CSFooter from '../CSFooter';
 import CSDocsPage from '../../view/CSDocsPage/CSDocsPage';
 import CSDocsContent from '../CSDocsContent';
+import axios from 'axios';
 
-const Layout: React.FC = () => {
+export interface CSIDocDefaultIndex {
+    id: number
+    attributes: {
+        index: number
+    }
+}
+
+export interface CSIDocDefaultIndexResponse {
+    data: CSIDocDefaultIndex
+}
+
+const CSILayout: React.FC = () => {
     const [bDrawerOpen, setDrawerOpen] = useState(false);
+    const [nDefIndex, setDefIndex] = useState<number>(3);
+
     const { pathname } = useLocation();
     let path = window.location.hash;
 
@@ -33,6 +47,19 @@ const Layout: React.FC = () => {
         }
 
     }
+
+    useEffect(() => {
+        let cancel = false;
+        const fetchData = async () => {
+            const resp = await axios.get<CSIDocDefaultIndexResponse>(`${process.env.REACT_APP_BASE_URL}/api/default-doc-id`)
+            if (cancel || !resp) return;
+            setDefIndex(resp.data.data.attributes.index);
+        }
+        fetchData()
+        return () => {
+            cancel = true;
+        }
+    }, []);
 
     return (
         <>
@@ -134,9 +161,8 @@ const Layout: React.FC = () => {
             </Drawer>
             <Routes>
                 <Route path='/' element={<HomePage />} />
-                {/* <Navigate to="/docs/3" /> */}
-                <Route path='/docs' element={path === '#/docs' ? <Navigate to={'/docs/3'} /> : <CSDocsPage />}>
-                    <Route path=':doc_view' element={<CSDocsContent />} />
+                <Route path='/docs' element={path === '#/docs' ? <Navigate to={`/docs/${nDefIndex}`} /> : <CSDocsPage />}>
+                    <Route path=':id' element={<CSDocsContent />} />
                 </Route>
                 <Route path='/blog' element={<CSBlogPage />} />
                 <Route path='/blog/:id' element={<CSArticle />} />
@@ -147,4 +173,4 @@ const Layout: React.FC = () => {
     )
 }
 
-export default Layout
+export default CSILayout

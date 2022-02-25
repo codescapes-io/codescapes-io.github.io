@@ -6,35 +6,6 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import TouchAppRoundedIcon from '@mui/icons-material/TouchAppRounded';
 import axios from 'axios';
 
-export interface CSIDocs {
-    id: number
-    attributes: {
-        title: string
-        documentation: string
-        createdAt: string
-        updatedAt: string
-        publishedAt: string
-        docs_children: {
-            data: CSIDocsChild[] | []
-        }
-    }
-}
-
-export interface CSIDocsChild {
-    id: number
-    attributes: {
-        title: string
-        documentation: string
-        createdAt: string
-        updatedAt: string
-        publishedAt: string
-    }
-}
-
-export interface CSIDocsResponse {
-    data: CSIDocs[]
-}
-
 export interface CSIDocPath {
     id: number
     attributes: {
@@ -59,7 +30,7 @@ export interface CSIDocPathResponse {
 }
 
 interface CSIFormatPath {
-    doc_view: number
+    nDocViewId: number
     childs: Map<string, CSIFormatPath>
 }
 
@@ -74,78 +45,86 @@ const CSDocsPage = () => {
     const handleClickLink = () => { setDrawerOpen(false) }
     const handleLink = (num: number) => { num === nLink ? setLink(null) : setLink(num) }
 
-    const recurs = useCallback((path: string, maps: Map<string, CSIFormatPath>, id: number) => {
-        const splittedpaths = path.split('/');
+    const constructNav = useCallback(() => {
+        const constructNavRecurs = (strPath: string, maps: Map<string, CSIFormatPath>, nId: number) => {
+            const splittedPaths = strPath.split('/');
 
-        const strParentKey = splittedpaths[0]
-        const strChildKey = splittedpaths[1]
+            const strParentKey = splittedPaths[0]
+            const strChildKey = splittedPaths[1]
 
-        let parent: CSIFormatPath | undefined = {
-            doc_view: id,
-            childs: new Map<string, CSIFormatPath>()
-        }
-        let newChild: CSIFormatPath | undefined = {
-            doc_view: 1,
-            childs: new Map<string, CSIFormatPath>()
-        }
+            let parent: CSIFormatPath | undefined = {
+                nDocViewId: nId,
+                childs: new Map<string, CSIFormatPath>()
+            }
+            let newChild: CSIFormatPath | undefined = {
+                nDocViewId: 1,
+                childs: new Map<string, CSIFormatPath>()
+            }
 
-        if (splittedpaths.length === 1) {
-            const key = splittedpaths[0];
-            if (!maps.has(key)) {
-                maps.set(key, {
-                    doc_view: id,
+            if (splittedPaths.length === 1) {
+                const strKey = splittedPaths[0];
+                const value = {
+                    nDocViewId: nId,
                     childs: new Map()
-                })
+                }
+                if (!maps.has(strKey)) {
+                    maps.set(strKey, value)
+                }
+            } else {
+                if (maps.has(strParentKey)) {
+                    parent = maps.get(strParentKey);
+                    if (!parent) return;
+                    let nDocViewId = parent.childs.get(strChildKey)?.nDocViewId ?? nId
+                    newChild.nDocViewId = nDocViewId
+                    parent.childs.set(strChildKey, newChild)
+                }
+
+                maps.set(strParentKey, parent)
+                splittedPaths.splice(0, 1)
+                constructNavRecurs(splittedPaths.join('/'), parent.childs, parent.nDocViewId)
             }
         }
-        else {
 
-            if (maps.has(strParentKey)) {
-                parent = maps.get(strParentKey);
-                if (!parent) return;
-                let view_id = parent.childs.get(strChildKey)?.doc_view ?? id
-                newChild.doc_view = view_id
-                parent.childs.set(strChildKey, newChild)
-            }
-
-            maps.set(strParentKey, parent)
-            splittedpaths.splice(0, 1)
-            recurs(splittedpaths.join('/'), parent.childs, parent.doc_view)
+        const setLinks = (listMaps: CSIDocPath[]) => {
+            const paths = new Map()
+            listMaps.map(el => constructNavRecurs(el.attributes.path, paths, el.attributes.doc_view?.data.id ?? el.id))
+            return paths;
         }
-    }, [])
+        return setLinks(docList)
+    }, [docList])
 
     const linkComponent = (maps: Map<string, CSIFormatPath>) => {
         let elementList: JSX.Element[] = [];
-        maps.forEach((value, key) => {
+        maps.forEach((value, strKey) => {
             if (value.childs.size < 1) {
                 elementList.push(
-                    <ListItem id={`${value.doc_view}`} itemID={`${value.doc_view}`} key={value.doc_view}>
+                    <ListItem id={`${value.nDocViewId}`} itemID={`${value.nDocViewId}`} key={value.nDocViewId}>
                         <NavLink
                             className='side-nav'
                             title='doc-link'
-                            to={`/docs/${value.doc_view}`}
+                            to={`/docs/${value.nDocViewId}`}
                             onClick={handleClickLink}
                         >
-                            {key}
+                            {strKey}
                         </NavLink>
                     </ListItem>
                 )
             } else {
                 elementList.push(
-                    <Box key={value.doc_view}>
-                        <ListItem id={`${value.doc_view}`} itemID={`${value.doc_view}`} sx={{ justifyContent: 'space-between' }}>
+                    <Box key={value.nDocViewId}>
+                        <ListItem id={`${value.nDocViewId}`} itemID={`${value.nDocViewId}`} sx={{ justifyContent: 'space-between' }}>
                             <NavLink
                                 className='side-nav'
                                 title='doc-link'
-                                to={`/docs/${value.doc_view}`}
+                                to={`/docs/${value.nDocViewId}`}
                                 onClick={handleClickLink}
                                 end
                             >
-                                {key}
+                                {strKey}
                             </NavLink>
-                            {nLink === value.doc_view ? <Box title='arrow-btn' onClick={() => handleLink(value.doc_view)}><ExpandLess /></Box> : <Box title='arrow-btn' onClick={() => handleLink(value.doc_view)}><ExpandMore /></Box>}
+                            {nLink === value.nDocViewId ? <Box title='arrow-btn' onClick={() => handleLink(value.nDocViewId)}><ExpandLess /></Box> : <Box title='arrow-btn' onClick={() => handleLink(value.nDocViewId)}><ExpandMore /></Box>}
                         </ListItem>
-                        <Collapse in={nLink === value.doc_view} timeout="auto" title='side-collapse' unmountOnExit>
+                        <Collapse in={nLink === value.nDocViewId} timeout="auto" title='side-collapse' unmountOnExit>
                             <List disablePadding>
                                 {linkComponent(value.childs)}
                             </List>
@@ -180,21 +159,25 @@ const CSDocsPage = () => {
 
     useEffect(() => {
         let cancel = false;
-        let paths = new Map<string, CSIFormatPath>()
         const fetchData = async () => {
-            const resPath = await axios.get<CSIDocPathListResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-paths?populate[doc_view][fields][0]=id`)
+            const resPath = await axios.get<CSIDocPathListResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-paths?populate[doc_view][fields][0]=id`).catch(err => {
+                if (err.response.status === 404) {
+                    throw new Error(`${err.config.url} not found`);
+                }
+                throw err;
+            })
             if (cancel || !resPath) return;
             setDocList(resPath.data.data);
-
-            resPath.data.data.map(el => recurs(el.attributes.path, paths, el.attributes.doc_view?.data.id ?? el.id))
-            setLinkList(paths)
-
         }
         fetchData();
         return () => {
             cancel = true;
         }
-    }, [recurs]);
+    }, []);
+
+    useEffect(() => {
+        setLinkList(constructNav())
+    }, [docList, constructNav])
 
 
     if (docList.length < 1) {
@@ -204,11 +187,15 @@ const CSDocsPage = () => {
                 <Box
                     sx={{
                         display: { xs: 'none', md: 'flex' },
+                        position: 'fixed',
                         flexBasis: '30%',
+                        boxSizing: 'border-box',
+                        width: `${sidebarWidth}px`,
                         flexDirection: 'column',
                         backgroundColor: '#272827',
                         color: 'white',
                         p: '16px 32px',
+                        height: '100vh',
                     }}
                 >
                     <Typography variant='body1' sx={{ fontWeight: '800' }}>Nambahi GraphQL Engine</Typography>

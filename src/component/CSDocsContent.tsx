@@ -4,7 +4,7 @@ import { Box } from '@mui/system'
 import { ThumbUpOffAltRounded, ThumbDownAltRounded } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
 import CSFooter from './CSFooter';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
@@ -13,33 +13,58 @@ export interface CSIDocView {
     attributes: {
         title: string
         content: string
+        table_content: string
         createdAt: string
         updatedAt: string
         publishedAt: string
     }
 }
 
-export interface CSIDocViewRespoonse {
+export interface CSIDocViewResponse {
     data: CSIDocView
 }
 
+
 const CSDocsContent = () => {
     const [docView, setDocView] = useState<CSIDocView>()
+    const { pathname, hash } = useLocation();
 
-    let { doc_view } = useParams()
+    let { id } = useParams()
 
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const resPath = await axios.get<CSIDocViewRespoonse>(`${process.env.REACT_APP_BASE_URL}/api/doc-views/${doc_view}`)
+            const resPath = await axios.get<CSIDocViewResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-views/${id}`).catch(err => {
+                if (err.response.status === 404) {
+                    throw new Error(`${err.config.url} not found`);
+                }
+                throw err;
+            })
             if (cancel || !resPath) return;
             setDocView(resPath.data.data);
         }
+
         fetchData()
         return () => {
             cancel = true;
         }
-    }, [doc_view])
+    }, [id])
+
+    useEffect(() => {
+        if (hash === '') {
+            window.scroll(0, 0)
+        } else {
+            setTimeout(() => {
+                const id = hash.replace('#', '')
+                const element = document.getElementById(id)
+                console.log(element);
+                if (element) {
+                    element.scrollIntoView();
+                }
+            }, 0)
+        }
+
+    }, [hash, pathname])
 
     const title = docView ? docView.attributes.title : ''
     const contentList = docView ? docView?.attributes.content.split('####') : []
@@ -75,15 +100,21 @@ const CSDocsContent = () => {
             <Typography variant='h5' fontWeight={600} sx={{ my: '36px' }}>{title}</Typography>
             <Box className='table-content'>
                 <Typography variant='body1'>Table of contents</Typography>
-                <ul className='docs-link-list'>
-                    {contentList.map((el, index) => {
-                        return (
-                            <li key={index}><a href="/docs" className='docs-link'>{el.split('\n')[0]}</a></li>
-                        )
-                    })}
-                </ul>
+                <ReactMarkdown className='docs-link-list'>{docView?.attributes.table_content ?? ''}</ReactMarkdown>
             </Box>
-            <ReactMarkdown className='md-content'>{docView ? docView?.attributes.content : ''}</ReactMarkdown>
+            <ReactMarkdown
+                className='md-content'
+                components={{
+                    h4({ children }) {
+                        const childs = React.Children.toArray(children)
+                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        return (<h4 id={slug}>{children}</h4>)
+                    }
+
+                }}
+            >
+                {docView ? docView?.attributes.content : ''}
+            </ReactMarkdown>
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',

@@ -36,6 +36,7 @@ interface CSIFormatPath {
 
 const CSDocsPage = () => {
     const [bDrawerOpen, setDrawerOpen] = useState(false);
+    const [bError, setError] = useState(false);
     const [docList, setDocList] = useState<CSIDocPath[]>([]);
     const [linkList, setLinkList] = useState<Map<string, CSIFormatPath>>(new Map())
     const [nLink, setLink] = useState<number | null>(0);
@@ -160,16 +161,19 @@ const CSDocsPage = () => {
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const resPath = await axios.get<CSIDocPathListResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-paths?populate[doc_view][fields][0]=id`).catch(err => {
-                if (err.response.status === 404) {
-                    throw new Error(`${err.config.url} not found`);
-                }
-                throw err;
-            })
-            if (cancel || !resPath) return;
-            setDocList(resPath.data.data);
+            const resPath = await axios.get<CSIDocPathListResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-paths?populate[doc_view][fields][0]=id`)
+            return resPath;
         }
-        fetchData();
+        fetchData()
+            .then(paths => {
+                if (cancel || !paths) return;
+                setError(false);
+                setDocList(paths.data.data);
+            })
+            .catch(err => {
+                console.log(err);
+                setError(true);
+            })
         return () => {
             cancel = true;
         }
@@ -179,6 +183,12 @@ const CSDocsPage = () => {
         setLinkList(constructNav())
     }, [docList, constructNav])
 
+    if (bError) return (
+        <Container title='docs-blank' maxWidth='xl' sx={{ display: 'flex', height: '100vh', flexDirection: 'column', marginTop: '101px' }}>
+            <Typography variant='body1' sx={{ textAlign: 'center' }}>Can not load data!</Typography>
+        </Container>
+
+    )
 
     if (docList.length < 1) {
         return (

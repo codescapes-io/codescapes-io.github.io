@@ -33,23 +33,23 @@ const CSDocsContent = () => {
     let { id } = useParams()
 
     useEffect(() => {
-        let cancel = false;
+        let bCancel = false;
         const fetchData = async () => {
-            const resPath = await axios.get<CSIDocViewResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-views/${id}`)
-            return resPath
+            const resp = await axios.get<CSIDocViewResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-views/${id}`)
+            return resp
         }
 
         fetchData()
-            .then(paths => {
-                if (cancel || !paths) return;
-                setDocView(paths.data.data);
+            .then(resp => {
+                if (bCancel || !resp) return;
+                setDocView(resp.data.data);
                 setError('')
             })
             .catch(err => {
                 setError(err.response.statusText);
             })
         return () => {
-            cancel = true;
+            bCancel = true;
         }
     }, [id])
 
@@ -57,21 +57,23 @@ const CSDocsContent = () => {
         if (hash === '') {
             window.scroll(0, 0)
         } else {
-            setTimeout(() => {
-                const id = hash.replace('#', '')
-                const element = document.getElementById(id)
-                if (element) {
-                    element.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
-                }
-            }, 0)
+            const id = hash.replace('#', '')
+            const element = document.getElementById(id)
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
         }
 
     }, [hash, pathname])
 
-    const title = docView ? docView.attributes.title : ''
+    const generateSlug = (strVars: string) => {
+        return strVars.toString().replace(' ', '-').toLowerCase()
+    }
+
+    const strTitle = docView ? docView.attributes.title : ''
 
     if (strError !== '') return (
         <Box sx={{ display: 'flex', height: '100vh', width: '100%', flexDirection: 'column', alignItems: 'center', marginTop: '101px' }}>
@@ -107,14 +109,15 @@ const CSDocsContent = () => {
                 />
             </Paper>
 
-            <Typography variant='h5' fontWeight={600} sx={{ my: '36px' }}>{title}</Typography>
+            <Typography variant='h5' fontWeight={600} sx={{ my: '36px' }}>{strTitle}</Typography>
             <Box className='table-content'>
                 <Typography variant='body1'>Table of contents</Typography>
                 <ReactMarkdown
                     className='docs-link-list'
                     components={{
                         a({ children, href }) {
-                            const childs = React.Children.toArray(children)
+                            // const childs = React.Children.toArray(children)
+                            const childs = children.toString()
                             return (<a href={`#${pathname + href}`}>{childs}</a>)
                         }
                     }}
@@ -126,33 +129,33 @@ const CSDocsContent = () => {
                 className='md-content'
                 components={{
                     h1({ children }) {
-                        const childs = React.Children.toArray(children)
-                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        const childs = children.toString()
+                        const slug = generateSlug(childs)
                         return (<h1 id={slug}>{children}</h1>)
                     },
                     h2({ children }) {
-                        const childs = React.Children.toArray(children)
-                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        const childs = children.toString()
+                        const slug = generateSlug(childs)
                         return (<h2 id={slug}>{children}</h2>)
                     },
                     h3({ children }) {
-                        const childs = React.Children.toArray(children)
-                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        const childs = children.toString()
+                        const slug = generateSlug(childs)
                         return (<h3 id={slug}>{children}</h3>)
                     },
-                    h4({ children }) {
-                        const childs = React.Children.toArray(children)
-                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                    h4: ({ children }) => {
+                        const childs = children.toString()
+                        const slug = generateSlug(childs)
                         return (<h4 id={slug}>{children}</h4>)
                     },
-                    h5({ children }) {
-                        const childs = React.Children.toArray(children)
-                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                    h5: ({ children }) => {
+                        const childs = children.toString()
+                        const slug = generateSlug(childs)
                         return (<h5 id={slug}>{children}</h5>)
                     },
-                    h6({ children }) {
-                        const childs = React.Children.toArray(children)
-                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                    h6: ({ children }) => {
+                        const childs = children.toString()
+                        const slug = generateSlug(childs)
                         return (<h6 id={slug}>{children}</h6>)
                     }
 

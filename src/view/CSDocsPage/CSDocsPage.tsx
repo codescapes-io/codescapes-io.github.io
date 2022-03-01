@@ -13,7 +13,7 @@ export interface CSIDocPath {
         createdAt: string
         updatedAt: string
         publishedAt: string
-        doc_view?: {
+        docView?: {
             data: {
                 id: number,
             }
@@ -88,13 +88,13 @@ const CSDocsPage = () => {
 
         const setLinks = (listMaps: CSIDocPath[]) => {
             const paths = new Map()
-            listMaps.map(el => constructNavRecurs(el.attributes.path, paths, el.attributes.doc_view?.data.id ?? el.id))
+            listMaps.map(el => constructNavRecurs(el.attributes.path, paths, el.attributes.docView?.data.id ?? el.id))
             return paths;
         }
         return setLinks(docList)
     }, [docList])
 
-    const linkComponent = (maps: Map<string, CSIFormatPath>) => {
+    const renderLinkComponent = (maps: Map<string, CSIFormatPath>) => {
         let elementList: JSX.Element[] = [];
         maps.forEach((value, strKey) => {
             if (value.childs.size < 1) {
@@ -127,7 +127,7 @@ const CSDocsPage = () => {
                         </ListItem>
                         <Collapse in={nLink === value.nDocViewId} timeout="auto" title='side-collapse' unmountOnExit>
                             <List disablePadding>
-                                {linkComponent(value.childs)}
+                                {renderLinkComponent(value.childs)}
                             </List>
                         </Collapse>
                     </Box>
@@ -137,7 +137,7 @@ const CSDocsPage = () => {
         return elementList
     }
 
-    const drawer = () => {
+    const renderDrawer = () => {
         return (
             <Box
                 sx={{
@@ -152,7 +152,7 @@ const CSDocsPage = () => {
                 <Typography variant='body1' sx={{ fontWeight: '800' }}>Nambahi GraphQL Engine</Typography>
                 <List>
                     {/* Loop to render doc list */}
-                    {linkComponent(linkList)}
+                    {renderLinkComponent(linkList)}
                 </List>
             </Box>
         )
@@ -161,8 +161,8 @@ const CSDocsPage = () => {
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const resPath = await axios.get<CSIDocPathListResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-paths?populate[doc_view][fields][0]=id`)
-            return resPath;
+            const resPaths = await axios.get<CSIDocPathListResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-paths?populate[docView][fields][0]=id`)
+            return resPaths;
         }
         fetchData()
             .then(paths => {
@@ -225,7 +225,6 @@ const CSDocsPage = () => {
             </Container>
         )
     }
-
     return (
         <Container title='docs' maxWidth='xl' sx={{ display: 'flex', pl: { md: '0' }, marginTop: '101px' }}>
             {/* side */}
@@ -246,7 +245,7 @@ const CSDocsPage = () => {
                 <Typography variant='body1' sx={{ fontWeight: '800' }}>Nambahi GraphQL Engine</Typography>
                 <List>
                     {/* Loop to render doc list */}
-                    {linkComponent(linkList)}
+                    {renderLinkComponent(linkList)}
                 </List>
             </Box>
 
@@ -274,7 +273,7 @@ const CSDocsPage = () => {
                     }
                 }}
             >
-                {drawer()}
+                {renderDrawer()}
             </Drawer>
             <Fab
                 onClick={handleSidebar}

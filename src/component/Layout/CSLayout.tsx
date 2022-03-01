@@ -31,7 +31,7 @@ export interface CSIDocDefaultIndexResponse {
 
 const CSILayout: React.FC = () => {
     const [bDrawerOpen, setDrawerOpen] = useState(false);
-    const [nDefIndex, setDefIndex] = useState<number>(3);
+    const [nDefIndex, setDefIndex] = useState<number>(-1);
 
     const { pathname } = useLocation();
     let path = window.location.hash;

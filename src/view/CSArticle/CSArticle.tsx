@@ -7,6 +7,7 @@ import DateFormater from '../../func/DateFormater';
 import CSEmailSubscribe from '../../component/CSEmailSubscribe';
 import CSCommentSection from '../../component/CSCommentSection';
 import { CSIArticle, CSIEachArticleResponse } from '../CSBlogPage/CSBlogPage';
+import ReactMarkdown from 'react-markdown';
 
 const CSArticle: React.FC = () => {
     const [article, setArticle] = useState<CSIArticle | string>(
@@ -36,7 +37,6 @@ const CSArticle: React.FC = () => {
         }
     );
     const { id } = useParams();
-    const [contentArticle, setContentArticle] = useState(['']);
 
     useEffect(() => {
         let cancel = false
@@ -49,7 +49,6 @@ const CSArticle: React.FC = () => {
         fetchData()
             .then(resp => {
                 if (cancel || !resp) return;
-                setContentArticle(resp.data.data.attributes.content.split('\n').filter((item: string) => item.length));
                 setArticle(resp.data.data)
             })
             .catch(err => {
@@ -148,33 +147,21 @@ const CSArticle: React.FC = () => {
                     </Box>
                     <Box className="body-article" sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                         <Box sx={{ flexBasis: '70%' }} title='article-body'>
-                            {
-                                contentArticle.map(
-                                    (el, index) => {
-                                        if (el[0] === '!' && el[1] === '[') {
-                                            let separator = 0;
-                                            for (let i = 0; i < el.length; i++) {
-                                                if (el[i] === ']' && el[i + 1] === '(' && el[el.length - 1] === ')') {
-                                                    separator = i;
-                                                }
-                                            }
-                                            let alt = el.slice(2, separator);
-                                            let src = el.slice(separator + 2, el.length - 1);
-
-                                            return (
-                                                <img
-                                                    src={`${process.env.REACT_APP_BASE_URL + src}`}
-                                                    alt={alt}
-                                                    title='article-img'
-                                                    key={index}
-                                                    className='image-content-article'
-                                                />
-                                            )
-                                        }
-                                        return (<p className='text-article' key={index}>{el}</p>);
+                            <ReactMarkdown
+                                components={{
+                                    img: ({ src }) => {
+                                        const source = `${process.env.REACT_APP_BASE_URL}${src}`
+                                        return (
+                                            <img
+                                                src={`${source}`}
+                                                alt='adsasd'
+                                                title='article-img'
+                                                className='image-content-article'
+                                            />
+                                        )
                                     }
-                                )
-                            }
+                                }}
+                            >{article.attributes.content}</ReactMarkdown>
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexBasis: '30%' }}>
                             ads here

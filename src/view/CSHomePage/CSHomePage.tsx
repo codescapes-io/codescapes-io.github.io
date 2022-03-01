@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import CSIFeature from '../../assets/image/CSIFeature';
 import CSEmailSubscribe from '../../component/CSEmailSubscribe';
+import { Box } from '@mui/system';
+import { Typography } from '@mui/material';
 
 export interface CSITechs {
     id: number
@@ -56,21 +58,55 @@ export interface CSIHomeResponse {
 }
 
 const Home: React.FC = () => {
-    const [content, setContent] = useState<CSIHome>()
+    const [content, setContent] = useState<CSIHome | string>()
 
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
             const response = await axios.get<CSIHomeResponse>(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
-            if (cancel || !response) return;
-            setContent(response.data.data);
+            return response;
         }
         fetchData()
+            .then(resp => {
+                if (cancel || !resp) return;
+                setContent(resp.data.data);
+            })
+            .catch(err => {
+                setContent(err.response.statusText);
+            })
         return () => {
             cancel = true
         }
     }, [])
 
+    if (typeof content === 'string') {
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    height: '90vh',
+                    width: '100%',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '101px'
+                }}
+            >
+                <Typography
+                    variant='body1'
+                    sx={{ textAlign: 'center' }}
+                >
+                    Can not load data!
+                </Typography>
+                <Typography
+                    variant='body1'
+                    sx={{ textAlign: 'center' }}
+                >
+                    {content}
+                </Typography>
+            </Box>
+        )
+    }
     return (
         <section id='home' title='home' className='mt-nav'>
             <div className="container-hero">

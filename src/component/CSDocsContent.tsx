@@ -27,6 +27,7 @@ export interface CSIDocViewResponse {
 
 const CSDocsContent = () => {
     const [docView, setDocView] = useState<CSIDocView>()
+    const [strError, setError] = useState<string>('');
     const { pathname, hash } = useLocation();
 
     let { id } = useParams()
@@ -34,17 +35,19 @@ const CSDocsContent = () => {
     useEffect(() => {
         let cancel = false;
         const fetchData = async () => {
-            const resPath = await axios.get<CSIDocViewResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-views/${id}`).catch(err => {
-                if (err.response.status === 404) {
-                    throw new Error(`${err.config.url} not found`);
-                }
-                throw err;
-            })
-            if (cancel || !resPath) return;
-            setDocView(resPath.data.data);
+            const resPath = await axios.get<CSIDocViewResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-views/${id}`)
+            return resPath
         }
 
         fetchData()
+            .then(paths => {
+                if (cancel || !paths) return;
+                setDocView(paths.data.data);
+                setError('')
+            })
+            .catch(err => {
+                setError(err.response.statusText);
+            })
         return () => {
             cancel = true;
         }
@@ -57,9 +60,11 @@ const CSDocsContent = () => {
             setTimeout(() => {
                 const id = hash.replace('#', '')
                 const element = document.getElementById(id)
-                console.log(element);
                 if (element) {
-                    element.scrollIntoView();
+                    element.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
                 }
             }, 0)
         }
@@ -67,9 +72,14 @@ const CSDocsContent = () => {
     }, [hash, pathname])
 
     const title = docView ? docView.attributes.title : ''
-    const contentList = docView ? docView?.attributes.content.split('####') : []
-    contentList.splice(0, 1)
 
+    if (strError !== '') return (
+        <Box sx={{ display: 'flex', height: '100vh', width: '100%', flexDirection: 'column', alignItems: 'center', marginTop: '101px' }}>
+            <Typography variant='body1' sx={{ textAlign: 'center' }}>Can not load data!</Typography>
+            <Typography variant='body1' sx={{ textAlign: 'center' }}>{strError}</Typography>
+        </Box>
+
+    )
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', px: { xs: 0, md: '55px' } }}>
             <Paper
@@ -100,15 +110,50 @@ const CSDocsContent = () => {
             <Typography variant='h5' fontWeight={600} sx={{ my: '36px' }}>{title}</Typography>
             <Box className='table-content'>
                 <Typography variant='body1'>Table of contents</Typography>
-                <ReactMarkdown className='docs-link-list'>{docView?.attributes.table_content ?? ''}</ReactMarkdown>
+                <ReactMarkdown
+                    className='docs-link-list'
+                    components={{
+                        a({ children, href }) {
+                            const childs = React.Children.toArray(children)
+                            return (<a href={`#${pathname + href}`}>{childs}</a>)
+                        }
+                    }}
+                >
+                    {docView?.attributes.table_content ?? ''}
+                </ReactMarkdown>
             </Box>
             <ReactMarkdown
                 className='md-content'
                 components={{
+                    h1({ children }) {
+                        const childs = React.Children.toArray(children)
+                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        return (<h1 id={slug}>{children}</h1>)
+                    },
+                    h2({ children }) {
+                        const childs = React.Children.toArray(children)
+                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        return (<h2 id={slug}>{children}</h2>)
+                    },
+                    h3({ children }) {
+                        const childs = React.Children.toArray(children)
+                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        return (<h3 id={slug}>{children}</h3>)
+                    },
                     h4({ children }) {
                         const childs = React.Children.toArray(children)
                         const slug = childs[0].toString().replace(' ', '-').toLowerCase()
                         return (<h4 id={slug}>{children}</h4>)
+                    },
+                    h5({ children }) {
+                        const childs = React.Children.toArray(children)
+                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        return (<h5 id={slug}>{children}</h5>)
+                    },
+                    h6({ children }) {
+                        const childs = React.Children.toArray(children)
+                        const slug = childs[0].toString().replace(' ', '-').toLowerCase()
+                        return (<h6 id={slug}>{children}</h6>)
                     }
 
                 }}

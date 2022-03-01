@@ -36,7 +36,7 @@ interface CSIFormatPath {
 
 const CSDocsPage = () => {
     const [bDrawerOpen, setDrawerOpen] = useState(false);
-    const [bError, setError] = useState(false);
+    const [strError, setError] = useState<string>('');
     const [docList, setDocList] = useState<CSIDocPath[]>([]);
     const [linkList, setLinkList] = useState<Map<string, CSIFormatPath>>(new Map())
     const [nLink, setLink] = useState<number | null>(0);
@@ -167,12 +167,11 @@ const CSDocsPage = () => {
         fetchData()
             .then(paths => {
                 if (cancel || !paths) return;
-                setError(false);
+                setError('');
                 setDocList(paths.data.data);
             })
             .catch(err => {
-                console.log(err);
-                setError(true);
+                setError(err.response.statusText);
             })
         return () => {
             cancel = true;
@@ -183,9 +182,10 @@ const CSDocsPage = () => {
         setLinkList(constructNav())
     }, [docList, constructNav])
 
-    if (bError) return (
+    if (strError !== '') return (
         <Container title='docs-blank' maxWidth='xl' sx={{ display: 'flex', height: '100vh', flexDirection: 'column', marginTop: '101px' }}>
             <Typography variant='body1' sx={{ textAlign: 'center' }}>Can not load data!</Typography>
+            <Typography variant='body1' sx={{ textAlign: 'center' }}>{strError}</Typography>
         </Container>
 
     )

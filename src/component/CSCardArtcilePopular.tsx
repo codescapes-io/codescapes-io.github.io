@@ -25,7 +25,7 @@ const CSCardArtcilePopular: React.FC<CSICardArticleProps> = (props) => {
                 </Typography>
             </Link>
             <div className="card-button">
-                <button>Learn more</button>
+                <Link to={`/blog/${props.nId}`} >Learn more</Link>
             </div>
             <div className="article-writer light">
                 <CSWriterAvatar />

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    HashRouter as Router,
     Routes,
     Route,
-    NavLink
+    NavLink,
+    useLocation,
+    Navigate,
 } from "react-router-dom";
-import Docs from '../../view/Docs';
 import HomePage from '../../view/CSHomePage/CSHomePage'
 import CSBlogPage from '../../view/CSBlogPage/CSBlogPage';
 import CSMenuIcons from '../../assets/icons/CSMenuIcons';
@@ -13,15 +13,56 @@ import CSCloseIcons from '../../assets/icons/CSCloseIcons';
 import { Drawer, List, ListItem, ListItemIcon } from '@mui/material';
 import { Box } from '@mui/system';
 import CSArticle from '../../view/CSArticle/CSArticle';
+import CSFooter from '../CSFooter';
+import CSDocsPage from '../../view/CSDocsPage/CSDocsPage';
+import CSDocsContent from '../CSDocsContent';
+import axios from 'axios';
 
-const Navbar: React.FC = () => {
+export interface CSIDocDefaultIndex {
+    id: number
+    attributes: {
+        index: number
+    }
+}
+
+export interface CSIDocDefaultIndexResponse {
+    data: CSIDocDefaultIndex
+}
+
+const CSILayout: React.FC = () => {
     const [bDrawerOpen, setDrawerOpen] = useState(false);
+    const [nDefIndex, setDefIndex] = useState<number>(-1);
+
+    const { pathname } = useLocation();
+    let path = window.location.hash;
 
     const handleClick = () => { setDrawerOpen(true) }
     const handleClose = () => { setDrawerOpen(false) }
+    const checkLocation = () => {
+        const location = pathname.split('/')
+        if (location[1] !== 'docs') {
+            return (
+                <CSFooter />
+            )
+        }
+
+    }
+
+    useEffect(() => {
+        let bCancel = false;
+        const fetchData = async () => {
+            const resp = await axios.get<CSIDocDefaultIndexResponse>(`${process.env.REACT_APP_BASE_URL}/api/default-doc-id`)
+            if (bCancel || !resp) return;
+            setDefIndex(resp.data.data.attributes.index);
+        }
+        fetchData()
+        return () => {
+            bCancel = true;
+        }
+    }, []);
 
     return (
-        <Router>
+        <>
             <nav title='navbar'>
                 <div className='logo'>
                     <img src="/logo-bve-light.png" alt="logo-bve" />
@@ -120,13 +161,16 @@ const Navbar: React.FC = () => {
             </Drawer>
             <Routes>
                 <Route path='/' element={<HomePage />} />
-                <Route path='/docs' element={<Docs />} />
+                <Route path='/docs' element={path === '#/docs' ? <Navigate to={`/docs/${nDefIndex}`} /> : <CSDocsPage />}>
+                    <Route path=':id' element={<CSDocsContent />} />
+                </Route>
                 <Route path='/blog' element={<CSBlogPage />} />
                 <Route path='/blog/:id' element={<CSArticle />} />
             </Routes>
-        </Router>
+            {checkLocation()}
+        </>
 
     )
 }
 
-export default Navbar
+export default CSILayout

@@ -51,29 +51,49 @@ export interface CSIEachArticleResponse {
     data: CSIArticle
 }
 
+
 const CSBlogPage: React.FC = () => {
-    const [articles, setArticles] = useState<CSIArticle[]>([]);
-    const [popularArticle, setPopularArticle] = useState<CSIArticle[]>([]);
+    const [articles, setArticles] = useState<CSIArticle[] | []>([]);
+    const [popularArticle, setPopularArticle] = useState<CSIArticle[] | []>([]);
     const [dotActive, setDotActive] = useState<number>(0);
     const [heroImgUrl, setHeroImgUrl] = useState<string>();
     const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
-        let cancel = false;
-        const fetchData = async () => {
-            const response = await axios.get<CSIArticleListResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&&pagination[pageSize]=3`);
-            const responseSort = await axios.get<CSIArticleListResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&pagination[pageSize]=3&sort[0]=read%3Adesc`);
-            if (cancel || !response || !responseSort) return;
+        let bCancel = false;
 
-            setArticles(response.data.data);
-            setPopularArticle(responseSort.data.data)
-            setHeroImgUrl(`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`);
-            setLoading(false);
+        const fetchArticle = async () => {
+            const response = await axios.get<CSIArticleListResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&&pagination[pageSize]=3`);
+            return response;
         }
 
-        fetchData()
+        const fetchArticleSort = async () => {
+            const responseSort = await axios.get<CSIArticleListResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&pagination[pageSize]=3&sort[0]=read%3Adesc`);
+            return responseSort
+        }
+
+        fetchArticle()
+            .then(resp => {
+                if (bCancel || !resp) return;
+                setArticles(resp.data.data);
+            })
+            .catch(err => {
+                setArticles([err.response.statusText])
+            })
+
+        fetchArticleSort()
+            .then(resp => {
+                if (bCancel || !resp) return;
+                setHeroImgUrl(`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`);
+                setLoading(false);
+                setPopularArticle(resp.data.data)
+            })
+            .catch(err => {
+                setPopularArticle([err.response.statusText])
+            })
+
         return () => {
-            cancel = true
+            bCancel = true
         }
     }, [])
 
@@ -87,7 +107,7 @@ const CSBlogPage: React.FC = () => {
     }
 
     return (
-        <section title='blog'>
+        <section title='blog' className='mt-nav'>
             <div className="container-hero-blog">
                 {
                     isLoading
@@ -107,39 +127,69 @@ const CSBlogPage: React.FC = () => {
                 }
                 <div className="container-slider" title='container-slider'>
                     {
-
-
                         isLoading
                             ? <CSHeroSliderSkeleton />
                             : popularArticle.map((el, index) => {
-                                return (
-                                    <CSHeroSlider
-                                        key={index}
-                                        nId={el.id}
-                                        strClass={index === dotActive ? 'active-blog' : ''}
-                                        strTitle={el.attributes.title}
-                                        strCategory={el.attributes.categories.data[0].attributes.name}
-                                        strCreatedAt={el.attributes.createdAt}
-                                        strWriter={el.attributes.users_permissions_user.data.attributes.name}
-                                        strContent={el.attributes.content}
-                                    />
-                                )
+                                if (typeof el == 'string') {
+                                    return (
+                                        <Box
+                                            key={index}
+                                            sx={{
+                                                display: 'flex',
+                                                width: '100%',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                marginTop: '101px'
+                                            }}
+                                        >
+                                            <Typography
+                                                variant='body1'
+                                                sx={{ textAlign: 'center' }}
+                                            >
+                                                Can not load data!
+                                            </Typography>
+                                            <Typography
+                                                variant='body1'
+                                                sx={{ textAlign: 'center' }}
+                                            >
+                                                {el}
+                                            </Typography>
+                                        </Box>
+                                    )
+                                } else {
+                                    return (
+                                        <CSHeroSlider
+                                            key={index}
+                                            nId={el.id}
+                                            strClass={index === dotActive ? 'active-blog' : ''}
+                                            strTitle={el.attributes.title}
+                                            strCategory={el.attributes.categories.data[0].attributes.name}
+                                            strCreatedAt={el.attributes.createdAt}
+                                            strWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                            strContent={el.attributes.content}
+                                        />
+                                    )
+                                }
                             })
                     }
 
                     <div className="dot-slider">
                         {
                             popularArticle.map((el, index) => {
-                                return (
-                                    <span
-                                        title='dot-sliders'
-                                        key={index}
-                                        onClick={() => handleSlide(index)}
-                                        className={dotActive === index ? 'dot active-dot' : 'dot'}
-                                        id={el.attributes.title}
-                                    >
-                                    </span>
-                                )
+                                if (typeof el === 'string') {
+                                    return null
+                                } else {
+                                    return (
+                                        <span
+                                            title='dot-sliders'
+                                            key={index}
+                                            onClick={() => handleSlide(index)}
+                                            className={dotActive === index ? 'dot active-dot' : 'dot'}
+                                            id={el.attributes.title}
+                                        >
+                                        </span>
+                                    )
+                                }
                             })
                         }
                     </div>
@@ -160,15 +210,44 @@ const CSBlogPage: React.FC = () => {
                                 <CSCardPopularSkeleton />
                             </>
                             : popularArticle.map((el, index) => {
-                                return (
-                                    <CSCardArticlePopular
-                                        key={index}
-                                        nId={el.id}
-                                        strTitle={el.attributes.title}
-                                        strCategory={el.attributes.categories.data[0].attributes.name}
-                                        strCreatedAt={el.attributes.createdAt}
-                                        strWriter={el.attributes.users_permissions_user.data.attributes.name}
-                                    />)
+                                if (typeof el === 'string') {
+                                    return (
+                                        <Box
+                                            key={index}
+                                            sx={{
+                                                display: 'flex',
+                                                width: '100%',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                marginTop: '101px'
+                                            }}
+                                        >
+                                            <Typography
+                                                variant='body1'
+                                                sx={{ textAlign: 'center' }}
+                                            >
+                                                Can not load data!
+                                            </Typography>
+                                            <Typography
+                                                variant='body1'
+                                                sx={{ textAlign: 'center' }}
+                                            >
+                                                {el}
+                                            </Typography>
+                                        </Box>
+                                    )
+                                } else {
+                                    return (
+                                        <CSCardArticlePopular
+                                            key={index}
+                                            nId={el.id}
+                                            strTitle={el.attributes.title}
+                                            strCategory={el.attributes.categories.data[0].attributes.name}
+                                            strCreatedAt={el.attributes.createdAt}
+                                            strWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                        />
+                                    )
+                                }
                             })
                     }
                 </Box>
@@ -182,16 +261,45 @@ const CSBlogPage: React.FC = () => {
                             <CSCardArticleSkeleton />
                         </>
                         : articles.map((el, index) => {
-                            return (
-                                <CSCardArticle
-                                    key={index}
-                                    nId={el.id}
-                                    strTitle={el.attributes.title}
-                                    strContent={el.attributes.content}
-                                    strCategory={el.attributes.categories.data[0].attributes.name}
-                                    strCreatedAt={el.attributes.createdAt}
-                                    strWriter={el.attributes.users_permissions_user.data.attributes.name}
-                                />)
+                            if (typeof el === 'string') {
+                                return (
+                                    <Box
+                                        key={index}
+                                        sx={{
+                                            display: 'flex',
+                                            width: '100%',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            marginTop: '101px'
+                                        }}
+                                    >
+                                        <Typography
+                                            variant='body1'
+                                            sx={{ textAlign: 'center' }}
+                                        >
+                                            Can not load data!
+                                        </Typography>
+                                        <Typography
+                                            variant='body1'
+                                            sx={{ textAlign: 'center' }}
+                                        >
+                                            {el}
+                                        </Typography>
+                                    </Box>
+                                )
+                            } else {
+                                return (
+                                    <CSCardArticle
+                                        key={index}
+                                        nId={el.id}
+                                        strTitle={el.attributes.title}
+                                        strContent={el.attributes.content}
+                                        strCategory={el.attributes.categories.data[0].attributes.name}
+                                        strCreatedAt={el.attributes.createdAt}
+                                        strWriter={el.attributes.users_permissions_user.data.attributes.name}
+                                    />
+                                )
+                            }
                         })
                 }
             </Box>

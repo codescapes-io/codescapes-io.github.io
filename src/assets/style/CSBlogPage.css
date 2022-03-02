@@ -208,7 +208,7 @@
     margin-bottom: 24px;
 }
 
-.card-article-popular .card-button button {
+.card-article-popular .card-button a {
     align-self: flex-end;
     background-color: #F7B93B;
     padding: 8px;
@@ -220,6 +220,12 @@
     letter-spacing: 0.12em;
     color: #FFFFFF;
     cursor: pointer;
+    transition: all ease-out 0.5s ;
+}
+
+.card-article-popular .card-button a:hover {
+    background-color: #FFC85A;
+    transition: all ease-out 0.5s ;
 }
 
 /* all article */

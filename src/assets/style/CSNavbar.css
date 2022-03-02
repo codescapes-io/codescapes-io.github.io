@@ -1,7 +1,10 @@
 /* Navbar */
 nav {
     display: flex;
-    position: relative;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
     align-items: center;
     justify-content: flex-end;
 }
@@ -51,6 +54,10 @@ nav ul li a.active {
 .sidebar-anchor{ 
   text-decoration: none;
   color: white;
+}
+
+.mt-nav {
+  margin-top: 101px !important;
 }
 
 

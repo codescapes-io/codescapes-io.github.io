@@ -22,7 +22,7 @@
     position: absolute;
 }
 
-.content-wrap-skeleton{
+.content-wrap-skeleton {
     width: 80%;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@
     opacity: 1;
 }
 
-.hero-img{
+.hero-img {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -48,13 +48,13 @@
     background-size: cover;
 }
 
-.hero-img::after{
+.hero-img::after {
     content: '';
     display: block;
     width: 100%;
     height: 100%;
     left: 0;
-    background: linear-gradient(360deg, #FFFFFF 75.31%, rgba(196, 196, 196, 0) 100%);
+    background: linear-gradient(360deg, #ffffff 75.31%, rgba(196, 196, 196, 0) 100%);
 }
 
 .active-img {
@@ -87,17 +87,17 @@
 }
 
 .active-dot {
-    background-color: #4FA7AA;
-
+    background-color: #4fa7aa;
 }
 
 .bold-yellow {
     font-weight: bold;
-    color: #FFAB00;
+    color: #ffab00;
     margin: 0 !important;
 }
 
-.content-wrap-blog h1, .content-wrap-card h1 {
+.content-wrap-blog h1,
+.content-wrap-card h1 {
     margin: 0;
     max-width: 423px;
     font-weight: 900;
@@ -108,7 +108,8 @@
     -webkit-box-orient: vertical;
 }
 
-.content-wrap-blog h1, .content-wrap-blog a {
+.content-wrap-blog h1,
+.content-wrap-blog a {
     text-decoration: none;
     color: black;
 }
@@ -117,7 +118,8 @@
     color: black;
 }
 
-.content-wrap-blog p, .content-wrap-card p {
+.content-wrap-blog p,
+.content-wrap-card p {
     max-width: 423px;
     margin-top: 24px;
     margin-bottom: 16px;
@@ -129,16 +131,16 @@
     -webkit-box-orient: vertical;
 }
 
-.article-writer{
+.article-writer {
     display: flex;
     align-items: center;
 }
 
-.light p{
+.light p {
     color: white;
 }
 
-.article-writer p{
+.article-writer p {
     margin: 0;
     font-size: 12px;
     margin-left: 16px;
@@ -147,10 +149,11 @@
 /* Popular Section */
 .container-popular-article {
     padding: 60px 0;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
 }
 
-.container-popular-article, .header-popular {
+.container-popular-article,
+.header-popular {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -167,18 +170,18 @@
     justify-content: center;
     align-items: center;
     margin: 60px 0;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
     width: 100%;
 }
 
-.card-article-popular{ 
-    background-color: #4B4B4B;
+.card-article-popular {
+    background-color: #4b4b4b;
     padding: 16px 24px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     box-shadow: 0px 4px 12px 9px rgba(247, 185, 59, 0.25);
-    border-radius: 17px;    
+    border-radius: 17px;
     margin: 0 2rem;
     margin-bottom: 2rem;
     height: 400px;
@@ -188,7 +191,7 @@
 .card-article-popular h1 {
     margin: 8px 0;
     font-weight: 900;
-    color: #FFFFFF;
+    color: #ffffff;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -196,11 +199,12 @@
     -webkit-box-orient: vertical;
 }
 
-.card-article-popular a, .content-wrap-card a{
+.card-article-popular a,
+.content-wrap-card a {
     text-decoration: none;
 }
 
-.card-button{
+.card-button {
     height: 55%;
     width: 100%;
     display: flex;
@@ -210,7 +214,7 @@
 
 .card-article-popular .card-button a {
     align-self: flex-end;
-    background-color: #F7B93B;
+    background-color: #f7b93b;
     padding: 8px;
     border-radius: 9px;
     border: 0;
@@ -218,14 +222,14 @@
     font-weight: bold;
     font-size: 14px;
     letter-spacing: 0.12em;
-    color: #FFFFFF;
+    color: #ffffff;
     cursor: pointer;
-    transition: all ease-out 0.5s ;
+    transition: all ease-out 0.5s;
 }
 
 .card-article-popular .card-button a:hover {
-    background-color: #FFC85A;
-    transition: all ease-out 0.5s ;
+    background-color: #ffc85a;
+    transition: all ease-out 0.5s;
 }
 
 /* all article */
@@ -267,12 +271,11 @@
     justify-content: space-around;
     align-items: center;
     width: 100%;
-  }
-
+}
 
 @media screen and (min-width: 900px) {
-    .hero-img::after{
-        background: linear-gradient(270deg, #FFFFFF 38.62%, rgba(255, 255, 255, 0) 100%);
+    .hero-img::after {
+        background: linear-gradient(270deg, #ffffff 38.62%, rgba(255, 255, 255, 0) 100%);
     }
     .container-slider {
         flex-basis: 40%;

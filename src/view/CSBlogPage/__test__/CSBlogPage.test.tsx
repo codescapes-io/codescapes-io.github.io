@@ -32,11 +32,11 @@ const fakeData = {
                             id: 1,
                             attributes: {
                                 username: 'michael',
-                                name: 'Michael Junior',
+                                name: 'Michael Junior'
                             }
                         }
                     }
-                },
+                }
             },
             {
                 id: 2,
@@ -60,21 +60,23 @@ const fakeData = {
                             id: 1,
                             attributes: {
                                 username: 'michael',
-                                name: 'Michael Junior',
+                                name: 'Michael Junior'
                             }
                         }
                     }
-                },
+                }
             }
         ]
     }
-}
+};
 
 const mockBlogPage = () => {
-    return <HashRouter>
-        <CSBlogPage />
-    </HashRouter>
-}
+    return (
+        <HashRouter>
+            <CSBlogPage />
+        </HashRouter>
+    );
+};
 
 describe('unit test BlogPage', () => {
     it('render BlogPage without crashing', () => {
@@ -82,57 +84,57 @@ describe('unit test BlogPage', () => {
         const blogPage = screen.getByTitle('blog');
         expect(blogPage).toBeTruthy();
         cleanup();
-    })
+    });
 
     describe('render skeleton', () => {
         it('render loading skeleton while loading', () => {
             render(mockBlogPage());
-            const skeletonHeroImg = screen.getByTestId('skeleton-hero-img')
-            const skeletonCardPopular = screen.getAllByTitle('skeleton-card-popular')
-            const skeletonArticleCard = screen.getAllByTitle('skeleton-article-card')
-            const skeletonHeroSlider = screen.getByTitle('skeleton-hero-slider')
+            const skeletonHeroImg = screen.getByTestId('skeleton-hero-img');
+            const skeletonCardPopular = screen.getAllByTitle('skeleton-card-popular');
+            const skeletonArticleCard = screen.getAllByTitle('skeleton-article-card');
+            const skeletonHeroSlider = screen.getByTitle('skeleton-hero-slider');
             expect(skeletonHeroImg).toBeInTheDocument();
             expect(skeletonArticleCard).toHaveLength(3);
             expect(skeletonCardPopular).toHaveLength(3);
             expect(skeletonHeroSlider).toBeInTheDocument();
             cleanup();
-
-        })
-    })
+        });
+    });
 
     describe('calls API', () => {
         it('render hero img', async () => {
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
             render(mockBlogPage());
-            const heroImg = await screen.findByTitle('hero-img')
-            expect(heroImg).toHaveAttribute('style', 'background-image: url(https://api.codescapes.io/uploads/article_img_77492e10a8.png);');
+            const heroImg = await screen.findByTitle('hero-img');
+            expect(heroImg).toHaveAttribute(
+                'style',
+                'background-image: url(https://api.codescapes.io/uploads/article_img_77492e10a8.png);'
+            );
             cleanup();
-
-        })
+        });
 
         it('render hero slider components', async () => {
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
             render(mockBlogPage());
 
-            const slider = await screen.findAllByTitle('hero-slider')
+            const slider = await screen.findAllByTitle('hero-slider');
 
             expect(slider).toHaveLength(fakeData.data.data.length);
             cleanup();
-        })
-    })
+        });
+    });
 
     it('click dot to slide hero', async () => {
-        mockAxios.get.mockImplementation(() => Promise.resolve(fakeData))
+        mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
         render(mockBlogPage());
 
-        const slider = await screen.findAllByTitle('hero-slider')
-        const dotSlider = await screen.findAllByTitle('dot-sliders')
+        const slider = await screen.findAllByTitle('hero-slider');
+        const dotSlider = await screen.findAllByTitle('dot-sliders');
 
-        fireEvent.click(dotSlider[0])
-        expect(slider[0]).toHaveClass('active-blog')
-        fireEvent.click(dotSlider[0])
-        expect(slider[0]).toHaveClass('active-blog')
+        fireEvent.click(dotSlider[0]);
+        expect(slider[0]).toHaveClass('active-blog');
+        fireEvent.click(dotSlider[0]);
+        expect(slider[0]).toHaveClass('active-blog');
         cleanup();
-    })
-
-})
+    });
+});

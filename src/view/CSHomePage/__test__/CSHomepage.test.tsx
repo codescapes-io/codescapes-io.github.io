@@ -37,37 +37,35 @@ const fakeData = {
                             attributes: {
                                 url: '/uploads/unity_logo_cf65490de2.svg'
                             }
-                        },
+                        }
                     ]
                 }
             }
-        },
-    },
-}
+        }
+    }
+};
 
 describe('unit test HomePage', () => {
     it('render HomePage without crashing', () => {
         render(<CSHomePage />);
         const linkElement = screen.getByTitle('home');
         expect(linkElement).toBeTruthy();
-
-    })
+    });
 
     describe('calls API', () => {
         it('render header from api', async () => {
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
 
             render(<CSHomePage />);
-            const headerHome = screen.getByTitle('header-content')
-            await waitFor(() => expect(headerHome).toHaveTextContent(fakeData.data.data.attributes.title))
-        })
+            const headerHome = screen.getByTitle('header-content');
+            await waitFor(() => expect(headerHome).toHaveTextContent(fakeData.data.data.attributes.title));
+        });
 
         it('render techs logo', async () => {
             mockAxios.get.mockImplementation(() => Promise.resolve(fakeData));
             render(<CSHomePage />);
-            const techsLogo = await screen.findAllByTitle('techs')
+            const techsLogo = await screen.findAllByTitle('techs');
             expect(techsLogo).toHaveLength(4);
-
-        })
-    })
-})
+        });
+    });
+});

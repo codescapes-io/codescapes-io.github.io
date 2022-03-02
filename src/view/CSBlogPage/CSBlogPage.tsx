@@ -60,7 +60,7 @@ const CSBlogPage: React.FC = () => {
     const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
-        let cancel = false;
+        let bCancel = false;
 
         const fetchArticle = async () => {
             const response = await axios.get<CSIArticleListResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles?populate=categories,users_permissions_user&&pagination[pageSize]=3`);
@@ -74,7 +74,7 @@ const CSBlogPage: React.FC = () => {
 
         fetchArticle()
             .then(resp => {
-                if (cancel || !resp) return;
+                if (bCancel || !resp) return;
                 setArticles(resp.data.data);
             })
             .catch(err => {
@@ -83,7 +83,7 @@ const CSBlogPage: React.FC = () => {
 
         fetchArticleSort()
             .then(resp => {
-                if (cancel || !resp) return;
+                if (bCancel || !resp) return;
                 setHeroImgUrl(`${process.env.REACT_APP_BASE_URL}/uploads/article_img_77492e10a8.png`);
                 setLoading(false);
                 setPopularArticle(resp.data.data)
@@ -93,7 +93,7 @@ const CSBlogPage: React.FC = () => {
             })
 
         return () => {
-            cancel = true
+            bCancel = true
         }
     }, [])
 

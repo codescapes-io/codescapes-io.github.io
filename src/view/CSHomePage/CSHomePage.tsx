@@ -61,21 +61,21 @@ const Home: React.FC = () => {
     const [content, setContent] = useState<CSIHome | string>()
 
     useEffect(() => {
-        let cancel = false;
+        let bCancel = false;
         const fetchData = async () => {
             const response = await axios.get<CSIHomeResponse>(`${process.env.REACT_APP_BASE_URL}/api/homepage?populate=techs`);
             return response;
         }
         fetchData()
             .then(resp => {
-                if (cancel || !resp) return;
+                if (bCancel || !resp) return;
                 setContent(resp.data.data);
             })
             .catch(err => {
                 setContent(err.response.statusText);
             })
         return () => {
-            cancel = true
+            bCancel = true
         }
     }, [])
 

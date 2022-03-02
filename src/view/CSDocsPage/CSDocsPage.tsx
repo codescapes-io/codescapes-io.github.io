@@ -151,7 +151,6 @@ const CSDocsPage = () => {
             >
                 <Typography variant='body1' sx={{ fontWeight: '800' }}>Nambahi GraphQL Engine</Typography>
                 <List>
-                    {/* Loop to render doc list */}
                     {renderLinkComponent(linkList)}
                 </List>
             </Box>
@@ -159,14 +158,14 @@ const CSDocsPage = () => {
     }
 
     useEffect(() => {
-        let cancel = false;
+        let bCancel = false;
         const fetchData = async () => {
             const resPaths = await axios.get<CSIDocPathListResponse>(`${process.env.REACT_APP_BASE_URL}/api/doc-paths?populate[docView][fields][0]=id`)
             return resPaths;
         }
         fetchData()
             .then(paths => {
-                if (cancel || !paths) return;
+                if (bCancel || !paths) return;
                 setError('');
                 setDocList(paths.data.data);
             })
@@ -174,7 +173,7 @@ const CSDocsPage = () => {
                 setError(err.response.statusText);
             })
         return () => {
-            cancel = true;
+            bCancel = true;
         }
     }, []);
 
@@ -187,7 +186,6 @@ const CSDocsPage = () => {
             <Typography variant='body1' sx={{ textAlign: 'center' }}>Can not load data!</Typography>
             <Typography variant='body1' sx={{ textAlign: 'center' }}>{strError}</Typography>
         </Container>
-
     )
 
     if (docList.length < 1) {
@@ -244,7 +242,6 @@ const CSDocsPage = () => {
             >
                 <Typography variant='body1' sx={{ fontWeight: '800' }}>Nambahi GraphQL Engine</Typography>
                 <List>
-                    {/* Loop to render doc list */}
                     {renderLinkComponent(linkList)}
                 </List>
             </Box>
@@ -258,7 +255,6 @@ const CSDocsPage = () => {
                 }}
             >
                 <Outlet />
-
             </Box>
             <Drawer
                 title='side-drawer'

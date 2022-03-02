@@ -49,15 +49,15 @@ const CSILayout: React.FC = () => {
     }
 
     useEffect(() => {
-        let cancel = false;
+        let bCancel = false;
         const fetchData = async () => {
             const resp = await axios.get<CSIDocDefaultIndexResponse>(`${process.env.REACT_APP_BASE_URL}/api/default-doc-id`)
-            if (cancel || !resp) return;
+            if (bCancel || !resp) return;
             setDefIndex(resp.data.data.attributes.index);
         }
         fetchData()
         return () => {
-            cancel = true;
+            bCancel = true;
         }
     }, []);
 

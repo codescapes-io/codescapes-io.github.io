@@ -39,7 +39,7 @@ const CSArticle: React.FC = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        let cancel = false
+        let bCancel = false
         const fetchData = async () => {
             const response = await axios.get<CSIEachArticleResponse>(`${process.env.REACT_APP_BASE_URL}/api/articles/${id}?populate=categories,users_permissions_user`)
             return response;
@@ -48,7 +48,7 @@ const CSArticle: React.FC = () => {
 
         fetchData()
             .then(resp => {
-                if (cancel || !resp) return;
+                if (bCancel || !resp) return;
                 setArticle(resp.data.data)
             })
             .catch(err => {
@@ -56,7 +56,7 @@ const CSArticle: React.FC = () => {
             })
 
         return () => {
-            cancel = true
+            bCancel = true
         }
     }, [id])
 
@@ -100,7 +100,12 @@ const CSArticle: React.FC = () => {
                 >
 
                 </Box>
-                <Container maxWidth='lg' title='article' className='container-article mt-nav' sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                <Container
+                    maxWidth='lg'
+                    title='article'
+                    className='container-article mt-nav'
+                    sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+                >
                     <Box
                         className='header-article'
                         sx={{

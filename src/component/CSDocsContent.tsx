@@ -13,7 +13,7 @@ export interface CSIDocView {
     attributes: {
         title: string
         content: string
-        table_content: string
+        tableContent: string
         createdAt: string
         updatedAt: string
         publishedAt: string
@@ -29,8 +29,7 @@ const CSDocsContent = () => {
     const [docView, setDocView] = useState<CSIDocView>()
     const [strError, setError] = useState<string>('');
     const { pathname, hash } = useLocation();
-
-    let { id } = useParams()
+    let { id } = useParams();
 
     useEffect(() => {
         let bCancel = false;
@@ -69,8 +68,8 @@ const CSDocsContent = () => {
 
     }, [hash, pathname])
 
-    const generateSlug = (strVars: React.ReactNode & React.ReactNode[]) => {
-        return strVars.toString().replace(' ', '-').toLowerCase()
+    const generateSlug = (vars: React.ReactNode & React.ReactNode[]) => {
+        return vars.toString().replace(' ', '-').toLowerCase()
     }
 
     const strTitle = docView ? docView.attributes.title : ''
@@ -115,26 +114,26 @@ const CSDocsContent = () => {
                 <ReactMarkdown
                     className='docs-link-list'
                     components={{
-                        a({ children, href }) {
+                        a: ({ children, href }) => {
                             return (<a href={`#${pathname + href}`}>{children}</a>)
                         }
                     }}
                 >
-                    {docView?.attributes.table_content ?? ''}
+                    {docView?.attributes.tableContent ?? ''}
                 </ReactMarkdown>
             </Box>
             <ReactMarkdown
                 className='md-content'
                 components={{
-                    h1({ children }) {
+                    h1: ({ children }) => {
                         const slug = generateSlug(children)
                         return (<h1 id={slug}>{children}</h1>)
                     },
-                    h2({ children }) {
+                    h2: ({ children }) => {
                         const slug = generateSlug(children)
                         return (<h2 id={slug}>{children}</h2>)
                     },
-                    h3({ children }) {
+                    h3: ({ children }) => {
                         const slug = generateSlug(children)
                         return (<h3 id={slug}>{children}</h3>)
                     },

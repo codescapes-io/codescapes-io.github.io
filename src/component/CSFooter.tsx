@@ -24,7 +24,9 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <Typography variant='body1' sx={{ fontWeight: '600' }}>About Us</Typography>
+                        <Typography variant="body1" sx={{ fontWeight: '600' }}>
+                            About Us
+                        </Typography>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>
@@ -34,7 +36,9 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <Typography variant='body1' sx={{ fontWeight: '600' }}>Our Product</Typography>
+                        <Typography variant="body1" sx={{ fontWeight: '600' }}>
+                            Our Product
+                        </Typography>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>
@@ -44,7 +48,9 @@ const CSFooter = () => {
                 </div>
                 <div className="footer-content">
                     <div className="footer-label">
-                        <Typography variant='body1' sx={{ fontWeight: '600' }}>Our Product</Typography>
+                        <Typography variant="body1" sx={{ fontWeight: '600' }}>
+                            Our Product
+                        </Typography>
                     </div>
                     <div className="footer-link">
                         <a href="/">lorem</a>

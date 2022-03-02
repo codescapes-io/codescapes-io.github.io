@@ -5,97 +5,93 @@
 @import 'assets/style/CSArticlePage.css';
 @import 'assets/style/CSDocsPage.css';
 
-body { 
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif !important;
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 .App {
-  overflow: hidden;
-  position: relative; 
-
+    overflow: hidden;
+    position: relative;
 }
 
 /* footer */
 footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .footer-body {
-  width: 100%;
-  display: flex;
-  /* justify-content: center; */
-  align-items: flex-start;
-  margin-bottom: 41px;
-  flex-wrap: wrap;
+    width: 100%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: flex-start;
+    margin-bottom: 41px;
+    flex-wrap: wrap;
 }
 
 .footer-bottom {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 41px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 41px;
 }
 
 .footer-setting {
-  margin: 18px 6px 18px 16px;
+    margin: 18px 6px 18px 16px;
 }
 
 .footer-setting .setting-wrap {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .footer-setting .setting-wrap svg {
-  margin-right: 12px;
+    margin-right: 12px;
 }
 
 .footer-bottom svg {
-  margin: 0 20px;
+    margin: 0 20px;
 }
 
 .footer-content {
-  display: flex;
-  flex-direction: column;
-  margin: 0 36px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 36px;
 }
 
-.footer-label{
-  display: flex;
-  flex-direction: column;
-  margin: 18px 0;
+.footer-label {
+    display: flex;
+    flex-direction: column;
+    margin: 18px 0;
 }
 
 .footer-label p {
-  margin: 0;
-  margin-bottom: 4px;
-  color: #6B6B6B;
+    margin: 0;
+    margin-bottom: 4px;
+    color: #6b6b6b;
 }
 
 .footer-label::after {
-  content: '';
-  width: 50%;
-  height: 4px ;
-  background-color: #FFAB00;
+    content: '';
+    width: 50%;
+    height: 4px;
+    background-color: #ffab00;
 }
 
 .footer-link {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .footer-link a {
-  margin-bottom: 30px;
-  text-decoration: none;
-  color: #6B6B6B;
+    margin-bottom: 30px;
+    text-decoration: none;
+    color: #6b6b6b;
 }
-
-
-

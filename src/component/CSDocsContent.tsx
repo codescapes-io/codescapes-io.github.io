@@ -73,13 +73,15 @@ const CSDocsContent = () => {
 
     const strTitle = docView ? docView.attributes.title : ''
 
-    if (strError) return (
-        <Box sx={{ display: 'flex', height: '100vh', width: '100%', flexDirection: 'column', alignItems: 'center', marginTop: '101px' }}>
-            <Typography variant='body1' sx={{ textAlign: 'center' }}>Can not load data!</Typography>
-            <Typography variant='body1' sx={{ textAlign: 'center' }}>{strError}</Typography>
-        </Box>
+    if (strError) {
+        return (
+            <Box sx={{ display: 'flex', height: '100vh', width: '100%', flexDirection: 'column', alignItems: 'center', marginTop: '101px' }}>
+                <Typography variant='body1' sx={{ textAlign: 'center' }}>Can not load data!</Typography>
+                <Typography variant='body1' sx={{ textAlign: 'center' }}>{strError}</Typography>
+            </Box>
 
-    )
+        )
+    }
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', px: { xs: 0, md: '55px' } }}>
             <Paper

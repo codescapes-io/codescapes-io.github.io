@@ -181,13 +181,14 @@ const CSDocsPage = () => {
         setLinkList(constructNav())
     }, [docList, constructNav])
 
-    if (strError !== '') return (
-        <Container title='docs-blank' maxWidth='xl' sx={{ display: 'flex', height: '100vh', flexDirection: 'column', marginTop: '101px' }}>
-            <Typography variant='body1' sx={{ textAlign: 'center' }}>Can not load data!</Typography>
-            <Typography variant='body1' sx={{ textAlign: 'center' }}>{strError}</Typography>
-        </Container>
-    )
-
+    if (strError !== '') {
+        return (
+            <Container title='docs-blank' maxWidth='xl' sx={{ display: 'flex', height: '100vh', flexDirection: 'column', marginTop: '101px' }}>
+                <Typography variant='body1' sx={{ textAlign: 'center' }}>Can not load data!</Typography>
+                <Typography variant='body1' sx={{ textAlign: 'center' }}>{strError}</Typography>
+            </Container>
+        )
+    }
     if (docList.length < 1) {
         return (
             <Container title='docs-blank' maxWidth='xl' sx={{ display: 'flex', height: '100vh', borderTop: '3px solid #424242', pl: { md: '0' } }}>

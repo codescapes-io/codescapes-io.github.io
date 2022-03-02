@@ -164,10 +164,10 @@ const CSDocsPage = () => {
             return resPaths;
         }
         fetchData()
-            .then(paths => {
-                if (bCancel || !paths) return;
+            .then(resp => {
+                if (bCancel || !resp) return;
                 setError('');
-                setDocList(paths.data.data);
+                setDocList(resp.data.data);
             })
             .catch(err => {
                 setError(err.response.statusText);

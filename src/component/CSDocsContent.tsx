@@ -149,7 +149,6 @@ const CSDocsContent = () => {
                         const slug = generateSlug(children)
                         return (<h6 id={slug}>{children}</h6>)
                     }
-
                 }}
             >
                 {docView ? docView?.attributes.content : ''}

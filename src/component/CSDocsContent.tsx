@@ -69,7 +69,7 @@ const CSDocsContent = () => {
 
     }, [hash, pathname])
 
-    const generateSlug = (strVars: string) => {
+    const generateSlug = (strVars: React.ReactNode & React.ReactNode[]) => {
         return strVars.toString().replace(' ', '-').toLowerCase()
     }
 
@@ -116,9 +116,7 @@ const CSDocsContent = () => {
                     className='docs-link-list'
                     components={{
                         a({ children, href }) {
-                            // const childs = React.Children.toArray(children)
-                            const childs = children.toString()
-                            return (<a href={`#${pathname + href}`}>{childs}</a>)
+                            return (<a href={`#${pathname + href}`}>{children}</a>)
                         }
                     }}
                 >
@@ -129,33 +127,27 @@ const CSDocsContent = () => {
                 className='md-content'
                 components={{
                     h1({ children }) {
-                        const childs = children.toString()
-                        const slug = generateSlug(childs)
+                        const slug = generateSlug(children)
                         return (<h1 id={slug}>{children}</h1>)
                     },
                     h2({ children }) {
-                        const childs = children.toString()
-                        const slug = generateSlug(childs)
+                        const slug = generateSlug(children)
                         return (<h2 id={slug}>{children}</h2>)
                     },
                     h3({ children }) {
-                        const childs = children.toString()
-                        const slug = generateSlug(childs)
+                        const slug = generateSlug(children)
                         return (<h3 id={slug}>{children}</h3>)
                     },
                     h4: ({ children }) => {
-                        const childs = children.toString()
-                        const slug = generateSlug(childs)
+                        const slug = generateSlug(children)
                         return (<h4 id={slug}>{children}</h4>)
                     },
                     h5: ({ children }) => {
-                        const childs = children.toString()
-                        const slug = generateSlug(childs)
+                        const slug = generateSlug(children)
                         return (<h5 id={slug}>{children}</h5>)
                     },
                     h6: ({ children }) => {
-                        const childs = children.toString()
-                        const slug = generateSlug(childs)
+                        const slug = generateSlug(children)
                         return (<h6 id={slug}>{children}</h6>)
                     }
 

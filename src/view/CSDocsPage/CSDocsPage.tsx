@@ -13,7 +13,7 @@ export interface CSIDocPath {
         createdAt: string;
         updatedAt: string;
         publishedAt: string;
-        docView?: {
+        docView: {
             data: {
                 id: number;
             };
@@ -44,10 +44,8 @@ const CSDocsPage = () => {
     const handleSidebar = () => {
         setDrawerOpen(!bDrawerOpen);
     };
-    const handleClickLink = (value: CSIFormatPath) => {
+    const handleClickLink = () => {
         setDrawerOpen(false);
-        console.log(value);
-
     };
 
     const constructNav = useCallback(() => {
@@ -80,20 +78,21 @@ const CSDocsPage = () => {
                     parent = maps.get(strParentKey);
                     if (!parent) return;
                     let nDocViewId = parent.childs.get(strChildKey)?.nDocViewId ?? nId;
+
                     newChild.nDocViewId = nDocViewId;
                     parent.childs.set(strChildKey, newChild);
                 }
 
                 maps.set(strParentKey, parent);
                 splittedPaths.splice(0, 1);
-                constructNavRecurs(splittedPaths.join('/'), parent.childs, parent.nDocViewId);
+                constructNavRecurs(splittedPaths.join('/'), parent.childs, nId);
             }
         };
 
         const setLinks = (listMaps: CSIDocPath[]) => {
             const paths = new Map();
             listMaps.map((el) =>
-                constructNavRecurs(el.attributes.path, paths, el.attributes.docView?.data.id ?? el.id)
+                constructNavRecurs(el.attributes.path, paths, el.attributes.docView.data.id)
             );
             return paths;
         };
@@ -112,7 +111,7 @@ const CSDocsPage = () => {
                             className="side-nav"
                             title="doc-link"
                             to={`/docs/${value.nDocViewId}`}
-                            onClick={() => handleClickLink(value)}
+                            onClick={() => handleClickLink}
                         >
                             {strKey}
                         </NavLink>
@@ -121,10 +120,11 @@ const CSDocsPage = () => {
             } else {
                 elementList.push(
                     <CSListCollapse
+                        key={value.nDocViewId}
                         nDocViewId={value.nDocViewId}
                         nMarginLeft={nMarginLeft += nCounter}
                         strTitle={strKey}
-                        handleClickLink={() => handleClickLink(value)}
+                        handleClickLink={() => handleClickLink}
                         renderComponent={renderLinkComponent(value.childs)}
                     />
                 );

@@ -13,7 +13,7 @@ export interface CSIDocPath {
         createdAt: string;
         updatedAt: string;
         publishedAt: string;
-        docView: {
+        docView?: {
             data: {
                 id: number;
             };
@@ -92,7 +92,7 @@ const CSDocsPage = () => {
         const setLinks = (listMaps: CSIDocPath[]) => {
             const paths = new Map();
             listMaps.map((el) =>
-                constructNavRecurs(el.attributes.path, paths, el.attributes.docView.data.id)
+                constructNavRecurs(el.attributes.path, paths, el.attributes.docView?.data.id ?? el.id)
             );
             return paths;
         };

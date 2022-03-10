@@ -168,6 +168,17 @@ const CSDocsContent = () => {
                     h6: ({ children }) => {
                         const slug = generateSlug(children);
                         return <h6 id={slug}>{children}</h6>;
+                    },
+                    img: ({ src }) => {
+                        const source = `${process.env.REACT_APP_BASE_URL}${src}`;
+                        return (
+                            <img
+                                src={`${source}`}
+                                alt="adsasd"
+                                title="article-img"
+                                className="image-content-article"
+                            />
+                        );
                     }
                 }}
             >

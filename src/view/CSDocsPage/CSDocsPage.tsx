@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { Collapse, Container, Drawer, Fab, List, ListItem, Typography } from '@mui/material';
+import { Container, Drawer, Fab, List, ListItem, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import TouchAppRoundedIcon from '@mui/icons-material/TouchAppRounded';
 import axios from 'axios';
+import CSListCollapse from '../../component/CSListCollapse';
 
 export interface CSIDocPath {
     id: number;
@@ -39,7 +39,6 @@ const CSDocsPage = () => {
     const [strError, setError] = useState<string>('');
     const [docList, setDocList] = useState<CSIDocPath[]>([]);
     const [linkList, setLinkList] = useState<Map<string, CSIFormatPath>>(new Map());
-    const [nLink, setLink] = useState<number | null>(0);
     const sidebarWidth = 350;
 
     const handleSidebar = () => {
@@ -47,9 +46,6 @@ const CSDocsPage = () => {
     };
     const handleClickLink = () => {
         setDrawerOpen(false);
-    };
-    const handleLink = (num: number) => {
-        num === nLink ? setLink(null) : setLink(num);
     };
 
     const constructNav = useCallback(() => {
@@ -82,13 +78,14 @@ const CSDocsPage = () => {
                     parent = maps.get(strParentKey);
                     if (!parent) return;
                     let nDocViewId = parent.childs.get(strChildKey)?.nDocViewId ?? nId;
+
                     newChild.nDocViewId = nDocViewId;
                     parent.childs.set(strChildKey, newChild);
                 }
 
                 maps.set(strParentKey, parent);
                 splittedPaths.splice(0, 1);
-                constructNavRecurs(splittedPaths.join('/'), parent.childs, parent.nDocViewId);
+                constructNavRecurs(splittedPaths.join('/'), parent.childs, nId);
             }
         };
 
@@ -104,6 +101,8 @@ const CSDocsPage = () => {
 
     const renderLinkComponent = (maps: Map<string, CSIFormatPath>) => {
         let elementList: JSX.Element[] = [];
+        let nMarginLeft = 0
+        let nCounter = 10
         maps.forEach((value, strKey) => {
             if (value.childs.size < 1) {
                 elementList.push(
@@ -112,7 +111,7 @@ const CSDocsPage = () => {
                             className="side-nav"
                             title="doc-link"
                             to={`/docs/${value.nDocViewId}`}
-                            onClick={handleClickLink}
+                            onClick={() => handleClickLink}
                         >
                             {strKey}
                         </NavLink>
@@ -120,35 +119,14 @@ const CSDocsPage = () => {
                 );
             } else {
                 elementList.push(
-                    <Box key={value.nDocViewId}>
-                        <ListItem
-                            id={`${value.nDocViewId}`}
-                            itemID={`${value.nDocViewId}`}
-                            sx={{ justifyContent: 'space-between' }}
-                        >
-                            <NavLink
-                                className="side-nav"
-                                title="doc-link"
-                                to={`/docs/${value.nDocViewId}`}
-                                onClick={handleClickLink}
-                                end
-                            >
-                                {strKey}
-                            </NavLink>
-                            {nLink === value.nDocViewId ? (
-                                <Box title="arrow-btn" onClick={() => handleLink(value.nDocViewId)}>
-                                    <ExpandLess />
-                                </Box>
-                            ) : (
-                                <Box title="arrow-btn" onClick={() => handleLink(value.nDocViewId)}>
-                                    <ExpandMore />
-                                </Box>
-                            )}
-                        </ListItem>
-                        <Collapse in={nLink === value.nDocViewId} timeout="auto" title="side-collapse" unmountOnExit>
-                            <List disablePadding>{renderLinkComponent(value.childs)}</List>
-                        </Collapse>
-                    </Box>
+                    <CSListCollapse
+                        key={value.nDocViewId}
+                        nDocViewId={value.nDocViewId}
+                        nMarginLeft={nMarginLeft += nCounter}
+                        strTitle={strKey}
+                        handleClickLink={() => handleClickLink}
+                        renderComponent={renderLinkComponent(value.childs)}
+                    />
                 );
             }
         });

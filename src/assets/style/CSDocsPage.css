@@ -43,9 +43,24 @@
 
 /* Markdown Content */
 .md-content p {
-    margin-top: 0;
+    margin-top: 0; 
     margin-bottom: 16px;
-    text-indent: 1.5em;
+    text-indent: 1.2em;
+    line-height: 1.5;    
+}
+
+.md-content blockquote {
+    font-size: 1.2em;
+    width:60%;
+    margin:16px 0;
+    font-family:Open Sans;
+    font-style:italic;
+    color: #555555;
+    padding:1.2em 30px 1.2em 55px;
+    border-left:8px solid #78BBBD ;
+    line-height:1.6;
+    position: relative;
+    background:#EDEDED;
 }
 
 .md-content h4 {
